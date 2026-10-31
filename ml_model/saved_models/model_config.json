@@ -1,0 +1,20 @@
+{
+  "model_type": "IsolationForest",
+  "version": "1.0.0",
+  "trained_at": "2026-10-30T18:18:55.693976+00:00",
+  "n_estimators": 200,
+  "contamination": 0.035,
+  "max_samples": "auto",
+  "random_state": 42,
+  "calibration": {
+    "score_min": -0.13734749213851222,
+    "score_max": 0.21574538349878,
+    "threshold": 0.0
+  },
+  "risk_boundaries": {
+    "LOW_MAX": 39.99,
+    "MEDIUM_MAX": 69.99,
+    "HIGH_MAX": 89.99,
+    "CRITICAL_MIN": 90.0
+  }
+}

@@ -1,0 +1,399 @@
+/* ====================================================================
+   FraudShield AI - Design System Tokens & Base Styles
+   Theme: Premium Fintech Cybersecurity Light Mode
+   Palette: Off-White (#F7F8FC), Pure White (#FFFFFF), Navy Typography (#25324B),
+   Primary Purple (#7665D5), Soft Lavender (#E9E5FF), Blue Accent (#4C83D9)
+   ==================================================================== */
+
+:root {
+  /* Core Backgrounds */
+  --bg-app: #F7F8FC;            /* Clean Off-White Body */
+  --bg-surface: #FFFFFF;        /* Topbar / Sidebar Clean White Background */
+  --bg-card: #FFFFFF;           /* Elevated Pure White Card Surface */
+  --bg-card-hover: #F8F9FD;     /* Card Subtle Hover State */
+  --bg-card-active: #F0EDFE;    /* Card Active / Focused */
+  --bg-input: #FFFFFF;          /* Form Input Clean Background */
+  --bg-modal: #FFFFFF;          /* Dialog & Modal Surface */
+  --bg-subtle: #F0F2F8;         /* Subtle Secondary Background */
+
+  /* Borders & Dividers */
+  --border-subtle: #E7E9F0;     /* Primary Structural Border */
+  --border-light: #D9DCE5;      /* Interactive / Hover Border */
+  --border-glow-purple: rgba(118, 101, 213, 0.25);
+  --border-glow-blue: rgba(76, 131, 217, 0.25);
+
+  /* Primary Brand Accents */
+  --primary-purple: #7665D5;    /* Primary Purple Brand */
+  --primary-purple-hover: #6352c4;
+  --secondary-purple: #9686EA;  /* Secondary Purple */
+  --soft-lavender: #E9E5FF;     /* Soft Lavender Highlight */
+  --accent-purple: #7665D5;
+  --accent-purple-hover: #6352c4;
+  --accent-purple-subtle: #E9E5FF;
+
+  --accent-blue: #4C83D9;       /* Blue Accent */
+  --accent-blue-hover: #3a70c4;
+  --accent-blue-subtle: #E8F0FF;/* Soft Blue Background */
+  --accent-cyan: #3b9dbd;       /* Cyan Muted */
+  --accent-gradient: linear-gradient(135deg, #7665D5 0%, #9686EA 100%);
+  --accent-gradient-hover: linear-gradient(135deg, #6352c4 0%, #8271dc 100%);
+
+  /* Fintech Severity Status Colors */
+  --status-low: #16A36A;        /* Success */
+  --status-low-bg: #DDF5E8;     /* Success Background */
+  --status-low-border: #bcecd3;
+
+  --status-medium: #D99324;     /* Warning */
+  --status-medium-bg: #FFF2D9;  /* Warning Background */
+  --status-medium-border: #fce2b1;
+
+  --status-high: #D94F5C;       /* Danger */
+  --status-high-bg: #FDE8EA;    /* Danger Background */
+  --status-high-border: #f9cacf;
+
+  --status-critical: #D94F5C;   /* Danger Critical */
+  --status-critical-bg: #FDE8EA;
+  --status-critical-border: #f9cacf;
+
+  /* Typography */
+  --text-primary: #25324B;      /* Professional Navy Primary Text */
+  --text-secondary: #758098;    /* Muted Slate Secondary Text */
+  --text-muted: #8E98B0;        /* Footnotes, Dividers & Labels */
+  --text-dim: #A8B2C7;          /* Placeholder & Disabled Text */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* Layout, Radii & Shadows */
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 72px;
+  --header-height: 68px;
+  --content-max-width: 1520px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --shadow-xs: 0 1px 2px rgba(37, 50, 75, 0.04);
+  --shadow-sm: 0 1px 3px rgba(37, 50, 75, 0.05), 0 1px 2px rgba(37, 50, 75, 0.03);
+  --shadow-md: 0 4px 14px rgba(37, 50, 75, 0.06), 0 2px 4px rgba(37, 50, 75, 0.03);
+  --shadow-card: 0 2px 8px rgba(37, 50, 75, 0.04), 0 0 0 1px var(--border-subtle);
+  --shadow-card-hover: 0 8px 24px rgba(37, 50, 75, 0.08), 0 0 0 1px var(--border-light);
+  --shadow-modal: 0 20px 40px -8px rgba(37, 50, 75, 0.16), 0 0 0 1px var(--border-subtle);
+  --shadow-glow: 0 0 20px -2px rgba(118, 101, 213, 0.2);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ====================================================================
+   Dark Mode Theme Overrides ([data-theme="dark"])
+   Preserves full fintech fidelity in high-contrast SOC midnight palette
+   ==================================================================== */
+html[data-theme="dark"], body[data-theme="dark"] {
+  /* Core Dark Backgrounds */
+  --bg-app: #0B101D;            /* Deep Midnight Navy Body */
+  --bg-surface: #10172A;        /* Dark Topbar / Sidebar */
+  --bg-card: #131D33;           /* Elevated Dark Card Surface */
+  --bg-card-hover: #192542;     /* Card Hover State */
+  --bg-card-active: #1D2B4D;
+  --bg-input: #0D1527;          /* Form Input Dark Background */
+  --bg-modal: #131D33;          /* Dialog & Modal Dark Surface */
+  --bg-subtle: #0E1626;
+
+  /* Borders & Dividers */
+  --border-subtle: #1E2C48;
+  --border-light: #2A3C60;
+  --border-glow-purple: rgba(139, 92, 246, 0.35);
+  --border-glow-blue: rgba(59, 130, 246, 0.35);
+
+  /* Primary Brand Accents */
+  --primary-purple: #8B5CF6;
+  --primary-purple-hover: #7C3AED;
+  --secondary-purple: #A78BFA;
+  --soft-lavender: rgba(139, 92, 246, 0.22);
+  --accent-purple: #8B5CF6;
+  --accent-purple-hover: #7C3AED;
+  --accent-purple-subtle: rgba(139, 92, 246, 0.15);
+
+  --accent-blue: #3B82F6;
+  --accent-blue-hover: #2563EB;
+  --accent-blue-subtle: rgba(59, 130, 246, 0.15);
+  --accent-cyan: #06B6D4;
+  --accent-gradient: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%);
+  --accent-gradient-hover: linear-gradient(135deg, #7C3AED 0%, #2563EB 100%);
+
+  /* Severity Status Colors */
+  --status-low: #10B981;
+  --status-low-bg: rgba(16, 185, 129, 0.15);
+  --status-low-border: rgba(16, 185, 129, 0.35);
+
+  --status-medium: #F59E0B;
+  --status-medium-bg: rgba(245, 158, 11, 0.15);
+  --status-medium-border: rgba(245, 158, 11, 0.35);
+
+  --status-high: #EF4444;
+  --status-high-bg: rgba(239, 68, 68, 0.15);
+  --status-high-border: rgba(239, 68, 68, 0.35);
+
+  --status-critical: #EF4444;
+  --status-critical-bg: rgba(239, 68, 68, 0.2);
+  --status-critical-border: rgba(239, 68, 68, 0.45);
+
+  /* Typography */
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-dim: #475569;
+
+  /* Layout & Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--border-subtle);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--border-light);
+  --shadow-modal: 0 20px 40px -8px rgba(0, 0, 0, 0.65), 0 0 0 1px var(--border-subtle);
+  --shadow-glow: 0 0 20px -2px rgba(139, 92, 246, 0.35);
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #23314F;
+}
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #32446A;
+}
+
+html[data-theme="dark"] .skeleton-loading {
+  background: linear-gradient(90deg, #131D33 25%, #1E2C48 50%, #131D33 75%);
+}
+
+
+/* Base Resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Custom Sleek Scrollbars (Light Theme) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+::-webkit-scrollbar-thumb {
+  background: #D9DCE5;
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A8B2C7;
+}
+
+/* Typography Utilities */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--text-secondary);
+}
+
+a {
+  color: var(--primary-purple);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+a:hover {
+  color: var(--primary-purple-hover);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: -0.03em;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 163, 106, 0.5); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(22, 163, 106, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(22, 163, 106, 0); }
+}
+
+@keyframes pulseGlowRed {
+  0% { box-shadow: 0 0 0 0 rgba(217, 79, 92, 0.3); }
+  70% { box-shadow: 0 0 0 8px rgba(217, 79, 92, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(217, 79, 92, 0); }
+}
+
+/* Accessible Focus States & Utilities */
+*:focus-visible {
+  outline: 2px solid var(--primary-purple);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: 1rem;
+  background: var(--primary-purple);
+  color: #ffffff;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-sm);
+  z-index: 10000;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+  transition: top var(--transition-fast);
+}
+.skip-link:focus {
+  top: 1rem;
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Reduced Motion Preference for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes flashHighlight {
+  0% { background-color: var(--soft-lavender); }
+  100% { background-color: transparent; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-loading {
+  background: linear-gradient(90deg, #F0F2F8 25%, #E2E6F0 50%, #F0F2F8 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+  border-radius: var(--radius-xs);
+  color: transparent !important;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+/* --------------------------------------------------------------------
+   Responsive Layout & Content Container Utilities
+   -------------------------------------------------------------------- */
+.main-content-container {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Topbar Breadcrumb */
+.topbar-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.topbar-breadcrumb .breadcrumb-root {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.topbar-breadcrumb .breadcrumb-sep {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.topbar-breadcrumb .breadcrumb-current {
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Live IST Clock */
+.topbar-clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.topbar-clock svg {
+  color: var(--primary-purple);
+}
+
+/* Desktop Sidebar Collapse Button */
+.desktop-collapse-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-right: 0.5rem;
+}
+
+.desktop-collapse-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  border-color: var(--border-light);
+}
+
+/* Mobile Responsiveness Resets: Prevent Root Horizontal Scroll */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw;
+}

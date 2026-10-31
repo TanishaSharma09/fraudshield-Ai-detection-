@@ -1,0 +1,42 @@
+[
+  {
+    "upi_id": "arjun.sharma@okaxis",
+    "avg_amount": 2450.0,
+    "std_amount": 850.0,
+    "total_transactions": 64,
+    "known_devices_json": "[\"DEV-XIAOMI-12\", \"DEV-IPHONE-15\"]",
+    "typical_cities_json": "[\"Mumbai\", \"Pune\"]"
+  },
+  {
+    "upi_id": "priya.verma@okhdfcbank",
+    "avg_amount": 1200.0,
+    "std_amount": 420.0,
+    "total_transactions": 48,
+    "known_devices_json": "[\"DEV-SAMSUNG-S23\"]",
+    "typical_cities_json": "[\"Bengaluru\", \"Mysuru\"]"
+  },
+  {
+    "upi_id": "rahul.kumar@paytm",
+    "avg_amount": 4100.0,
+    "std_amount": 1400.0,
+    "total_transactions": 92,
+    "known_devices_json": "[\"DEV-ONEPLUS-11\"]",
+    "typical_cities_json": "[\"Delhi\", \"Gurugram\"]"
+  },
+  {
+    "upi_id": "sneha.patel@icici",
+    "avg_amount": 850.0,
+    "std_amount": 310.0,
+    "total_transactions": 35,
+    "known_devices_json": "[\"DEV-PIXEL-8\"]",
+    "typical_cities_json": "[\"Ahmedabad\", \"Surat\"]"
+  },
+  {
+    "upi_id": "mule.account.fake@ybl",
+    "avg_amount": 50000.0,
+    "std_amount": 25000.0,
+    "total_transactions": 5,
+    "known_devices_json": "[\"DEV-UNKNOWN-TOR\"]",
+    "typical_cities_json": "[\"Kolkata\"]"
+  }
+]

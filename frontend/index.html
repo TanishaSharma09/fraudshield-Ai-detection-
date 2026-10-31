@@ -1,0 +1,3077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function() {
+      var saved = localStorage.getItem('fraudshield_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FraudShield AI — Real-Time UPI Fraud Detection & Cybersecurity SOC Dashboard</title>
+  
+  <!-- Modern Clean Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Design System & Dashboard Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <!-- Chart.js 4.4.1 for Real-Time Visualisations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <a href="#main-content-area" class="skip-link">Skip to main content</a>
+  <div class="app-layout">
+    
+    <!-- =================================================================
+         1. SIDEBAR NAVIGATION
+         ================================================================= -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon-wrapper">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="brand-title">
+          <span class="brand-name">
+            <span class="shield">FraudShield</span><span class="ai">AI</span>
+          </span>
+          <span class="brand-badge">SOC Gateway • v1.2</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Core Operations</div>
+        
+        <a class="nav-item active" data-nav="overview" id="nav-overview">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="9"/>
+              <rect x="14" y="3" width="7" height="5"/>
+              <rect x="14" y="12" width="7" height="9"/>
+              <rect x="3" y="16" width="7" height="5"/>
+            </svg>
+            <span>Overview</span>
+          </div>
+        </a>
+
+        <a class="nav-item" data-nav="transactions" id="nav-transactions">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+            <span>Transactions</span>
+          </div>
+        </a>
+
+        <a class="nav-item" data-nav="alerts" id="nav-alerts">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <span>Fraud Alerts</span>
+          </div>
+          <span class="nav-counter" id="sidebar-alert-badge">3</span>
+        </a>
+
+        <a class="nav-item" data-nav="analytics" id="nav-analytics">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 3v18h18"/>
+              <path d="m19 9-5 5-4-4-3 3"/>
+            </svg>
+            <span>Analytics</span>
+          </div>
+        </a>
+
+        <a class="nav-item" data-nav="behavioural" id="nav-behavioural">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"/>
+              <circle cx="6" cy="12" r="3"/>
+              <circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+            <span>Behavioural Analysis</span>
+          </div>
+        </a>
+
+        <a class="nav-item" data-nav="reports" id="nav-reports">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+            <span>Reports</span>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Administration</div>
+
+        <a class="nav-item" id="nav-users" data-nav="users">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>User Management</span>
+          </div>
+          <span class="badge badge-role-admin" style="font-size: 0.65rem;">ADMIN</span>
+        </a>
+
+        <a class="nav-item" id="nav-settings" data-nav="settings">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span>Settings</span>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Developer Tools</div>
+
+        <a class="nav-item" id="nav-simulator-trigger">
+          <div class="nav-item-content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+            <span>Payment Simulator</span>
+          </div>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status-indicator">
+          <div class="status-dot" id="system-status-dot"></div>
+          <span id="system-status-text">Isolation Forest Online</span>
+        </div>
+        <div class="model-meta-box">
+          <div class="model-title">Model: Isolation Forest</div>
+          <div>Trees: 150 | Contam: 0.03</div>
+          <div style="color: var(--text-muted); font-size: 0.65rem;">API: <a href="/docs" target="_blank" style="color: var(--accent-blue);">OpenAPI Docs ↗</a></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
+
+    <!-- =================================================================
+         2. MAIN WRAPPER & TOPBAR
+         ================================================================= -->
+    <div class="main-wrapper">
+      
+      <!-- Top Navigation Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <!-- Desktop Sidebar Collapse Rail Button -->
+          <button class="desktop-collapse-btn" id="btn-sidebar-collapse" title="Toggle Sidebar Collapse (Rail)" aria-label="Collapse Sidebar">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <line x1="9" y1="3" x2="9" y2="21"/>
+            </svg>
+          </button>
+          <!-- Mobile Hamburger Menu Button -->
+          <button class="mobile-nav-toggle" id="btn-mobile-nav-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <!-- Mobile Brand Logo -->
+          <div class="mobile-brand" id="mobile-brand">
+            <span class="shield">FraudShield</span><span class="ai">AI</span>
+          </div>
+          <!-- Dynamic Topbar Breadcrumb -->
+          <div class="topbar-breadcrumb" id="topbar-breadcrumb">
+            <span class="breadcrumb-root">FraudShield</span>
+            <span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-current" id="breadcrumb-current-page">Dashboard Overview</span>
+          </div>
+          <div class="global-search-container">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input 
+              type="text" 
+              class="search-input" 
+              id="global-search-input" 
+              placeholder="Search by VPA, TxID, city, or status..."
+              autocomplete="off"
+            />
+            <kbd class="search-kbd">Ctrl K</kbd>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Live Polling Toggle -->
+          <div class="live-feed-toggle" id="live-polling-toggle" title="Toggle 5s live polling stream">
+            <span class="live-indicator" id="live-stream-dot"></span>
+            <span id="live-stream-label">Live Stream Active</span>
+          </div>
+
+          <!-- Live IST Clock Ticker -->
+          <div class="topbar-clock" id="topbar-clock" title="Current Indian Standard Time (IST)">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span id="clock-ist-time">--:--:-- IST</span>
+          </div>
+
+          <!-- Simulate Payment Quick Action -->
+          <button class="btn btn-primary btn-sm" id="btn-quick-simulate">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+            <span>Simulate Payment</span>
+          </button>
+
+          <!-- Theme Toggle Quick Button -->
+          <button class="icon-button" id="btn-topbar-theme-toggle" title="Toggle Light / Dark Theme" aria-label="Toggle theme">
+            <svg id="theme-icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg id="theme-icon-moon" style="display: none;" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+
+          <!-- Settings Quick Link -->
+          <button class="icon-button" id="btn-topbar-settings" title="Platform Settings & Configuration" aria-label="Settings">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </button>
+
+          <!-- Notification Bell -->
+          <button class="icon-button" id="btn-notifications" title="Active Alerts & Investigation Queue">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span class="badge-dot" id="notification-badge-dot"></span>
+            <span class="notification-count" id="notification-unread-count">0</span>
+          </button>
+
+          <!-- 9. User Profile Area (Top Right Chip) -->
+          <div class="user-profile-chip" id="user-profile-chip" title="Click to inspect session and role">
+            <div class="avatar-circle" id="user-avatar-initials">AD</div>
+            <div class="user-chip-text">
+              <span class="user-chip-name" id="user-chip-username">admin</span>
+              <span class="user-chip-role" id="user-chip-role-badge">ADMIN</span>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </div>
+      </header>
+
+      <!-- ===============================================================
+           3. MAIN DASHBOARD CONTENT AREA (VIEWS)
+           =============================================================== -->
+      <main class="main-content" id="main-content-area">
+        
+        <!-- =============================================================
+             VIEW 1: OVERVIEW DASHBOARD
+             ============================================================= -->
+        <div id="view-overview" class="view-panel active">
+          <!-- Demonstration Disclaimer Banner -->
+        <div class="demo-disclaimer-banner">
+          <div class="banner-content">
+            <span class="banner-badge">UI Demonstration Baseline</span>
+            <span class="banner-text">
+              <strong>Notice:</strong> Initial dashboard charts and summary statistics display realistic demonstration data for UI evaluation. 
+              Live UPI payments and attacks trigger genuine Isolation Forest machine learning predictions.
+            </span>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btn-refresh-dashboard">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span>Sync Live</span>
+          </button>
+        </div>
+
+        <!-- =============================================================
+             REAL-TIME TRANSACTION STREAM SIMULATOR CONTROL DECK
+             ============================================================= -->
+        <section class="sim-control-deck" id="simulation-control-deck">
+          <div class="sim-deck-header">
+            <div class="sim-deck-title-group">
+              <div class="sim-icon-circle">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="sim-deck-title">
+                  Real-Time UPI Transaction Stream Simulator
+                  <span class="sim-disclaimer-pill">Simulated Environment</span>
+                </h3>
+                <p class="sim-deck-subtitle">Generates live synthetic payments passing directly through the FastAPI Isolation Forest inference engine & SQLite database</p>
+              </div>
+            </div>
+
+            <!-- Subtle 3D Floating Security Shield & Connected Telemetry Nodes -->
+            <div class="sim-deck-3d-visual" id="overview-3d-shield" aria-hidden="true">
+              <div class="shield-3d-scene">
+                <!-- Connected Node Network Visual (SVG) -->
+                <svg class="shield-network-svg" viewBox="0 0 160 76" fill="none">
+                  <!-- Animated Connecting Data Lines with subtle dash flow -->
+                  <line class="net-line line-1" x1="16" y1="18" x2="80" y2="38" />
+                  <line class="net-line line-2" x1="22" y1="62" x2="80" y2="38" />
+                  <line class="net-line line-3" x1="144" y1="18" x2="80" y2="38" />
+                  <line class="net-line line-4" x1="138" y1="60" x2="80" y2="38" />
+                  <!-- Network Telemetry Nodes -->
+                  <circle class="net-node node-pulse-1" cx="16" cy="18" r="3.5" />
+                  <circle class="net-node node-pulse-2" cx="22" cy="62" r="3" />
+                  <circle class="net-node node-pulse-3" cx="144" cy="18" r="3.5" />
+                  <circle class="net-node node-pulse-4" cx="138" cy="60" r="3" />
+                  <text x="6" y="10" class="node-label">GATEWAY</text>
+                  <text x="10" y="74" class="node-label">INFERENCE</text>
+                  <text x="124" y="10" class="node-label">NPCI_RAIL</text>
+                  <text x="122" y="72" class="node-label">SOC_CORE</text>
+                </svg>
+
+                <!-- Floating 3D Shield Element with Perspective -->
+                <div class="shield-3d-body">
+                  <div class="shield-ambient-glow"></div>
+                  <div class="shield-ground-shadow"></div>
+                  <!-- Layered 3D Isometric Shield -->
+                  <div class="shield-facets">
+                    <svg viewBox="0 0 64 74" width="46" height="54" class="shield-svg" fill="none">
+                      <defs>
+                        <linearGradient id="shieldRimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#9686EA" />
+                          <stop offset="50%" stop-color="#7665D5" />
+                          <stop offset="100%" stop-color="#5544BE" />
+                        </linearGradient>
+                        <linearGradient id="shieldCoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.96" />
+                          <stop offset="100%" stop-color="#E9E5FF" stop-opacity="0.88" />
+                        </linearGradient>
+                        <linearGradient id="shieldAccentGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#7665D5" />
+                          <stop offset="100%" stop-color="#4C83D9" />
+                        </linearGradient>
+                        <filter id="shieldSoftDrop" x="-20%" y="-20%" width="140%" height="140%">
+                          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#7665D5" flood-opacity="0.22" />
+                        </filter>
+                      </defs>
+                      <!-- Outer Shield Ring -->
+                      <path d="M32 3 L58 14 C58 42 32 68 32 71 C32 68 6 42 6 14 Z" fill="url(#shieldRimGrad)" filter="url(#shieldSoftDrop)"/>
+                      <!-- Inner Facet Left -->
+                      <path d="M32 6 L55 16 C55 40 32 65 32 68 Z" fill="url(#shieldCoreGrad)"/>
+                      <!-- Inner Facet Right (Specular reflection) -->
+                      <path d="M32 6 L9 16 C9 40 32 65 32 68 Z" fill="#F4F2FF" fill-opacity="0.92"/>
+                      <!-- Center Spine / Divider -->
+                      <line x1="32" y1="8" x2="32" y2="66" stroke="#D4CCFC" stroke-width="1" stroke-linecap="round"/>
+                      <!-- Security Check / Padlock Symbol -->
+                      <path d="M24 33 L29 38 L40 27" stroke="url(#shieldAccentGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                      <!-- Top Tech Micro-Dots -->
+                      <circle cx="32" cy="18" r="1.5" fill="#7665D5" />
+                      <circle cx="26" cy="20" r="1" fill="#9686EA" />
+                      <circle cx="38" cy="20" r="1" fill="#9686EA" />
+                    </svg>
+                  </div>
+                  <!-- Orbiting Micro Particle -->
+                  <div class="shield-orbit-particle"></div>
+                </div>
+              </div>
+              <div class="shield-status-caption">
+                <span class="shield-pulse-dot"></span>
+                <span>Active 3D Telemetry Shield</span>
+              </div>
+            </div>
+
+            <div class="sim-status-badge" id="sim-status-badge">
+              <span class="sim-status-dot"></span>
+              <span id="sim-status-text">SIMULATION STOPPED</span>
+            </div>
+          </div>
+
+          <!-- Simulation Controls: Start, Pause, Resume, Stop, Speed & Scenarios -->
+          <div class="sim-deck-controls-row">
+            <!-- Action Buttons -->
+            <div class="sim-btn-group">
+              <button class="btn btn-success btn-sm" id="btn-sim-start">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <span>Start Stream</span>
+              </button>
+              <button class="btn btn-warning btn-sm" id="btn-sim-pause" style="display: none;">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <rect x="6" y="4" width="4" height="16"/>
+                  <rect x="14" y="4" width="4" height="16"/>
+                </svg>
+                <span>Pause</span>
+              </button>
+              <button class="btn btn-primary btn-sm" id="btn-sim-resume" style="display: none;">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <span>Resume</span>
+              </button>
+              <button class="btn btn-danger btn-sm" id="btn-sim-stop" disabled>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                  <rect x="4" y="4" width="16" height="16"/>
+                </svg>
+                <span>Stop Stream</span>
+              </button>
+            </div>
+
+            <!-- Speed & Interval Adjustment -->
+            <div class="sim-speed-cluster">
+              <div class="sim-slider-container">
+                <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Speed:</span>
+                <input type="range" class="sim-slider" id="sim-speed-slider" min="400" max="5000" step="200" value="1500" title="Adjust transaction generation speed">
+                <span class="mono" style="font-size: 0.78rem; color: var(--accent-cyan); font-weight: 700; min-width: 60px;" id="sim-speed-val">1.5s / tx</span>
+              </div>
+              <div style="display: flex; gap: 0.25rem;">
+                <button class="date-preset-pill sim-speed-pill" data-speed="500">Fast (0.5s)</button>
+                <button class="date-preset-pill sim-speed-pill active" data-speed="1500">Normal (1.5s)</button>
+                <button class="date-preset-pill sim-speed-pill" data-speed="3000">Paced (3.0s)</button>
+              </div>
+            </div>
+
+            <!-- Scenario Selection -->
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Scenario:</span>
+              <select class="filter-select" id="sim-scenario-select" style="max-width: 260px;">
+                <option value="REALISTIC_MIX" selected>Realistic Auto-Mix (70% Normal / 30% Attacks)</option>
+                <option value="HIGH_THREAT">High Threat Surge (40% Normal / 60% Attacks)</option>
+                <option value="NORMAL_PAYMENT">1. Normal Payments (Grocery / Peer)</option>
+                <option value="UNUSUALLY_LARGE">2. Unusually Large Payments (₹75k - ₹98k)</option>
+                <option value="VELOCITY_BURST">3. Repeated Rapid Payments (Velocity Burst)</option>
+                <option value="NEW_RECIPIENT">4. Payments to New Recipients (Mule/Crypto)</option>
+                <option value="UNUSUAL_PATTERN">5. Unusual Patterns (SIM Swap / Night Window)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Telemetry Counters & Disclaimer -->
+          <div class="sim-deck-telemetry-row">
+            <div class="sim-stats-cluster">
+              <div>Generated: <strong id="sim-metric-total" style="color: var(--text-primary);">0</strong></div>
+              <div>Anomalies: <strong id="sim-metric-flagged" style="color: var(--status-critical);">0</strong></div>
+              <div>Throughput: <strong id="sim-metric-rate" style="color: var(--accent-blue);">0.0 tx/s</strong></div>
+            </div>
+            <div style="font-size: 0.7rem; color: var(--text-muted);">
+              Safety Notice: Synthetic telemetry only. Zero connection to real banks or actual financial rails.
+            </div>
+          </div>
+        </section>
+
+          <!-- Dashboard Header -->
+          <div class="dashboard-header">
+            <div>
+              <h1 class="page-title">Welcome back, Security Operations</h1>
+              <p class="page-subtitle">Cybersecurity Operations Center • Real-time fraud surveillance, isolation anomaly detection, and enterprise risk intelligence</p>
+            </div>
+            <div class="header-actions">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-secondary);">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <select class="filter-select" id="overview-date-filter-select" aria-label="Select overview date range" style="min-width: 130px;">
+                  <option value="today" selected>Today (24h)</option>
+                  <option value="7d">Last 7 Days</option>
+                  <option value="30d">Last 30 Days</option>
+                  <option value="all">All-Time Historic</option>
+                </select>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-view-all-txs">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="8" y1="6" x2="21" y2="6"/>
+                  <line x1="8" y1="12" x2="21" y2="12"/>
+                  <line x1="8" y1="18" x2="21" y2="18"/>
+                  <line x1="3" y1="6" x2="3.01" y2="6"/>
+                  <line x1="3" y1="12" x2="3.01" y2="12"/>
+                  <line x1="3" y1="18" x2="3.01" y2="18"/>
+                </svg>
+                <span>Full Ledger View</span>
+              </button>
+              <span class="badge badge-low" style="padding: 0.35rem 0.75rem;" id="sla-badge">SLA: 99.98% Healthy</span>
+            </div>
+          </div>
+
+          <!-- 4 Summary KPI Cards -->
+          <section class="kpi-cards-grid">
+            <!-- Card 1: Total Evaluated Transactions -->
+            <div class="kpi-card" style="--card-accent: var(--accent-blue);">
+              <div class="kpi-header">
+                <span class="kpi-title">Total Transactions</span>
+                <div class="kpi-icon-container">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="5" width="20" height="14" rx="2"/>
+                    <line x1="2" y1="10" x2="22" y2="10"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric" id="kpi-total-evaluated">128,450</span>
+                <span class="kpi-delta delta-positive">↑ 12.4%</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>Gross Vol: ₹42.8M</span>
+                <span class="mono" id="kpi-tx-velocity">~42 tx/sec</span>
+              </div>
+            </div>
+
+            <!-- Card 2: Flagged Anomalies -->
+            <div class="kpi-card" style="--card-accent: var(--status-critical);">
+              <div class="kpi-header">
+                <span class="kpi-title">Suspicious Transactions</span>
+                <div class="kpi-icon-container" style="color: var(--status-critical);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric" id="kpi-total-flagged">1,842</span>
+                <span class="kpi-delta delta-danger" id="kpi-fraud-rate">1.43% Rate</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>Isolation Forest Score &lt; -0.15</span>
+                <span class="badge badge-critical" style="font-size: 0.65rem;">Active Shield</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Pending SOC Reviews -->
+            <div class="kpi-card" style="--card-accent: var(--status-medium);">
+              <div class="kpi-header">
+                <span class="kpi-title">High-Risk Transactions</span>
+                <div class="kpi-icon-container" style="color: var(--status-medium);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric" id="kpi-pending-alerts">7</span>
+                <span class="badge badge-medium" style="font-size: 0.7rem;">Needs Triage</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>Mean Triage Time: 1.8 mins</span>
+                <span class="mono" style="color: var(--status-medium);">Live Queue</span>
+              </div>
+            </div>
+
+            <!-- Card 4: Model Precision & Inference SLA -->
+            <div class="kpi-card" style="--card-accent: var(--accent-purple);">
+              <div class="kpi-header">
+                <span class="kpi-title">Transactions Monitored</span>
+                <div class="kpi-icon-container" style="color: var(--accent-purple);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric">94.2%</span>
+                <span class="kpi-delta delta-positive">12.4ms avg</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>Leak-Free Preprocessing</span>
+                <span class="badge badge-low" style="font-size: 0.65rem;">Verified</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Analytics Charts Section -->
+          <section class="analytics-charts-grid">
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-heading-group">
+                  <h3 class="chart-title">Transaction Volume & Anomaly Velocity</h3>
+                  <span class="chart-subtitle">Hourly comparison of total payments against anomalous spikes</span>
+                </div>
+                <div class="chart-controls">
+                  <button class="chart-pill active" data-period="24h">24 Hours</button>
+                  <button class="chart-pill" data-period="7d">7 Days</button>
+                  <button class="chart-pill" data-period="30d">30 Days</button>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="activityChart"></canvas>
+              </div>
+              <div class="chart-meta-footer">
+                <span>● Electric Blue: Legitimate Volume</span>
+                <span>● Cyber Purple / Red: Anomalies Flagged</span>
+                <span class="mono" style="color: var(--accent-cyan);">Diurnal peak: 14:00 - 19:00 IST</span>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-heading-group">
+                  <h3 class="chart-title">Risk Tier Distribution</h3>
+                  <span class="chart-subtitle">Calibrated scoring across 4 risk profiles</span>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper" style="min-height: 250px;">
+                <canvas id="riskDistributionChart"></canvas>
+              </div>
+              <div class="chart-meta-footer">
+                <span>Calibrated Range: 0 to 100</span>
+                <span class="mono" id="avg-risk-label">Avg Risk Score: 18.4</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- 5. Secondary Analytics Section: Risk Category Breakdown & Recent Fraud Alerts -->
+          <section class="secondary-analytics-grid">
+            <!-- Left: Risk Category Breakdown -->
+            <div class="risk-breakdown-card">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <h3 class="panel-title">Risk Category Breakdown</h3>
+                  <span class="panel-count" id="risk-category-badge">4 Profiles</span>
+                </div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">
+                  Calibrated Scoring
+                </div>
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 0.85rem;">
+                Volumetric transaction proportions calibrated through Isolation Forest contamination rate (γ = 0.0387).
+              </p>
+
+              <div class="risk-tier-list">
+                <!-- Low Risk Tier -->
+                <div class="risk-tier-item">
+                  <div class="risk-tier-header">
+                    <div class="risk-tier-label">
+                      <span class="badge badge-low risk-tier-badge">LOW</span>
+                      <span>Routine &amp; Safe (Score 0–30)</span>
+                    </div>
+                    <span class="risk-tier-val" id="risk-val-low">84.6% • 108,668 tx</span>
+                  </div>
+                  <div class="risk-progress-track">
+                    <div class="risk-progress-bar low" style="width: 84.6%;"></div>
+                  </div>
+                </div>
+
+                <!-- Medium Risk Tier -->
+                <div class="risk-tier-item">
+                  <div class="risk-tier-header">
+                    <div class="risk-tier-label">
+                      <span class="badge badge-medium risk-tier-badge">MEDIUM</span>
+                      <span>Elevated Velocity (Score 31–69)</span>
+                    </div>
+                    <span class="risk-tier-val" id="risk-val-medium">11.2% • 14,386 tx</span>
+                  </div>
+                  <div class="risk-progress-track">
+                    <div class="risk-progress-bar medium" style="width: 11.2%;"></div>
+                  </div>
+                </div>
+
+                <!-- High Risk Tier -->
+                <div class="risk-tier-item">
+                  <div class="risk-tier-header">
+                    <div class="risk-tier-label">
+                      <span class="badge badge-high risk-tier-badge">HIGH</span>
+                      <span>Isolation Outlier (Score 70–89)</span>
+                    </div>
+                    <span class="risk-tier-val" id="risk-val-high">2.8% • 3,554 tx</span>
+                  </div>
+                  <div class="risk-progress-track">
+                    <div class="risk-progress-bar high" style="width: 2.8%;"></div>
+                  </div>
+                </div>
+
+                <!-- Critical Risk Tier -->
+                <div class="risk-tier-item">
+                  <div class="risk-tier-header">
+                    <div class="risk-tier-label">
+                      <span class="badge badge-critical risk-tier-badge">CRITICAL</span>
+                      <span>Severe Threat (Score 90–100)</span>
+                    </div>
+                    <span class="risk-tier-val" id="risk-val-critical">1.4% • 1,842 tx</span>
+                  </div>
+                  <div class="risk-progress-track">
+                    <div class="risk-progress-bar critical" style="width: 1.4%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 1.15rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: var(--text-secondary);">
+                <span>Autonomous Policy: Score ≥ 70 holds transfer</span>
+                <span class="badge badge-role-admin" style="font-size: 0.65rem;">Active Shield</span>
+              </div>
+            </div>
+
+            <!-- Right: Recent Fraud Alerts Panel -->
+            <div class="panel-card" style="min-height: auto;">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <h3 class="panel-title">Actionable Fraud Alerts</h3>
+                  <span class="panel-count" id="alerts-count-badge" style="background: var(--status-critical-bg); color: var(--status-critical); border-color: var(--status-critical-border);">3 Action Req</span>
+                </div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">
+                  SOC Review Queue
+                </div>
+              </div>
+
+              <div class="alerts-list" id="alerts-list-container">
+                <!-- Populated dynamically via dashboard.js -->
+              </div>
+            </div>
+          </section>
+
+          <!-- 6. Dominant Lower Section: Real-Time Transaction Ledger (Full Width) -->
+          <section class="panel-card full-width-ledger-card">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h3 class="panel-title">Real-Time Transaction Ledger</h3>
+                <span class="panel-count" id="ledger-count-badge">50 items</span>
+              </div>
+              <div class="table-filter-bar" style="margin-bottom: 0;">
+                <div class="filter-tabs" id="ledger-filter-tabs">
+                  <button class="filter-tab active" data-filter="ALL">All</button>
+                  <button class="filter-tab" data-filter="CRITICAL">Critical</button>
+                  <button class="filter-tab" data-filter="HIGH">High</button>
+                  <button class="filter-tab" data-filter="MEDIUM">Medium</button>
+                  <button class="filter-tab" data-filter="LOW">Low</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table" id="transactions-table">
+                <thead>
+                  <tr>
+                    <th>Tx ID</th>
+                    <th>Time (IST)</th>
+                    <th>VPA Route</th>
+                    <th>Amount</th>
+                    <th>Channel</th>
+                    <th>Risk Score</th>
+                    <th>Tier / Decision</th>
+                    <th>Primary Factor</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="transactions-tbody">
+                  <tr class="skeleton-row">
+                    <td><div class="skeleton-cell" style="width: 100px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 60px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 150px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 75px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 55px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 50px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 70px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 120px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 75px;"></div></td>
+                  </tr>
+                  <tr class="skeleton-row">
+                    <td><div class="skeleton-cell" style="width: 95px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 60px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 140px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 80px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 55px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 50px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 70px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 110px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 75px;"></div></td>
+                  </tr>
+                  <tr class="skeleton-row">
+                    <td><div class="skeleton-cell" style="width: 105px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 60px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 160px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 70px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 55px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 50px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 70px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 130px;"></div></td>
+                    <td><div class="skeleton-cell" style="width: 75px;"></div></td>
+                  </tr>
+                  <!-- Populated dynamically via dashboard.js -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- =============================================================
+             VIEW 2: DEDICATED TRANSACTION MANAGEMENT SECTION
+             ============================================================= -->
+        <div id="view-transactions" class="view-panel" style="display: none;">
+          <!-- Section Header -->
+          <div class="dashboard-header">
+            <div>
+              <h1 class="page-title">Transaction Surveillance & Management</h1>
+              <p class="page-subtitle">Interactive audit ledger with real-time Isolation Forest anomaly detection, multi-factor filtering, and ML explanations</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-secondary btn-sm" id="btn-refresh-mgmt-txs" title="Reload data from database">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+                <span>Refresh</span>
+              </button>
+              <button class="btn btn-primary btn-sm" id="btn-mgmt-simulate">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+                <span>+ Simulate Payment</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Advanced Filtering & Search Toolbar -->
+          <div class="tx-toolbar">
+            <!-- Row 1: Search & Attribute Selectors -->
+            <div class="tx-toolbar-row">
+              <div class="tx-search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input 
+                  type="text" 
+                  class="search-input" 
+                  id="mgmt-search-input" 
+                  placeholder="Search Transaction ID, Sender VPA, Receiver VPA, or City..."
+                  autocomplete="off"
+                />
+                <button class="tx-search-clear" id="mgmt-search-clear" title="Clear Search">✕</button>
+              </div>
+
+              <div class="tx-filter-cluster">
+                <!-- Risk Level Filter -->
+                <select class="filter-select" id="mgmt-filter-risk" title="Filter by risk tier">
+                  <option value="ALL">All Risk Levels</option>
+                  <option value="CRITICAL">Critical (90 - 100)</option>
+                  <option value="HIGH">High (70 - 89)</option>
+                  <option value="MEDIUM">Medium (40 - 69)</option>
+                  <option value="LOW">Low (0 - 39)</option>
+                </select>
+
+                <!-- Transaction Type / Channel Filter -->
+                <select class="filter-select" id="mgmt-filter-channel" title="Filter by UPI channel">
+                  <option value="ALL">All Channels</option>
+                  <option value="UPI_APP">UPI_APP</option>
+                  <option value="QR_CODE">QR_CODE</option>
+                  <option value="COLLECT_REQUEST">COLLECT_REQUEST</option>
+                  <option value="INTENT_FLOW">INTENT_FLOW</option>
+                  <option value="QR_STATIC">QR_STATIC</option>
+                </select>
+
+                <!-- Status Filter -->
+                <select class="filter-select" id="mgmt-filter-status" title="Filter by decision status">
+                  <option value="ALL">All Statuses</option>
+                  <option value="APPROVED">APPROVED</option>
+                  <option value="HOLD_FOR_REVIEW">HOLD FOR REVIEW</option>
+                  <option value="UNDER_REVIEW">UNDER REVIEW</option>
+                  <option value="BLOCKED">BLOCKED</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Row 2: Date Filtering & Reset CTA -->
+            <div class="tx-toolbar-row" style="border-top: 1px solid var(--border-subtle); padding-top: 0.75rem;">
+              <div class="date-range-container">
+                <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Date Range:</span>
+                <div class="date-preset-pills" id="mgmt-date-presets">
+                  <button class="date-preset-pill active" data-range="ALL">All Time</button>
+                  <button class="date-preset-pill" data-range="TODAY">Today</button>
+                  <button class="date-preset-pill" data-range="7D">Last 7 Days</button>
+                  <button class="date-preset-pill" data-range="30D">Last 30 Days</button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.35rem; margin-left: 0.35rem;">
+                  <input type="date" class="date-input-field" id="mgmt-start-date" title="Start Date">
+                  <span style="font-size: 0.7rem; color: var(--text-muted);">to</span>
+                  <input type="date" class="date-input-field" id="mgmt-end-date" title="End Date">
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <button class="btn btn-secondary btn-sm" id="btn-reset-filters">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                    <path d="M3 3v5h5"/>
+                  </svg>
+                  <span>Reset Filters</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Professional Transaction Table Card -->
+          <div class="panel-card" style="padding: 0; overflow: hidden;">
+            <div class="table-container" style="border: none; border-radius: 0;">
+              <table class="data-table" id="mgmt-transactions-table">
+                <thead>
+                  <tr>
+                    <th class="th-sortable" data-sort="tx_id">
+                      <div class="th-content">
+                        <span>Transaction ID</span>
+                        <span class="sort-direction-icon">⇅</span>
+                      </div>
+                    </th>
+                    <th>Sender Identifier</th>
+                    <th>Receiver Identifier</th>
+                    <th class="th-sortable" data-sort="amount">
+                      <div class="th-content">
+                        <span>Amount</span>
+                        <span class="sort-direction-icon">⇅</span>
+                      </div>
+                    </th>
+                    <th class="th-sortable active-sort" data-sort="timestamp">
+                      <div class="th-content">
+                        <span>Timestamp</span>
+                        <span class="sort-direction-icon">▼</span>
+                      </div>
+                    </th>
+                    <th>Transaction Type</th>
+                    <th class="th-sortable" data-sort="risk_score">
+                      <div class="th-content">
+                        <span>Risk Score</span>
+                        <span class="sort-direction-icon">⇅</span>
+                      </div>
+                    </th>
+                    <th>Risk Status</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="mgmt-transactions-tbody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+
+              <!-- Loading State Placeholder -->
+              <div id="mgmt-loading-state" style="display: none; padding: 3rem 1.5rem;">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                  <div class="skeleton-cell" style="width: 100%; height: 32px;"></div>
+                  <div class="skeleton-cell" style="width: 100%; height: 32px;"></div>
+                  <div class="skeleton-cell" style="width: 100%; height: 32px;"></div>
+                  <div class="skeleton-cell" style="width: 100%; height: 32px;"></div>
+                  <div class="skeleton-cell" style="width: 100%; height: 32px;"></div>
+                </div>
+              </div>
+
+              <!-- Empty State Placeholder -->
+              <div id="mgmt-empty-state" class="table-empty-state" style="display: none;">
+                <div class="state-icon-circle">
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--accent-blue)" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                </div>
+                <div class="state-title">No Transactions Found</div>
+                <div class="state-desc">No transaction records match the specified search keywords, risk tier, or date range. Try adjusting your filter parameters.</div>
+                <button class="btn btn-secondary btn-sm" id="btn-empty-clear-filters">Clear All Filters</button>
+              </div>
+
+              <!-- Error State Placeholder -->
+              <div id="mgmt-error-state" class="table-error-state" style="display: none;">
+                <div class="state-icon-circle" style="border-color: var(--status-critical-border);">
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--status-critical)" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                </div>
+                <div class="state-title" style="color: var(--status-critical);">Failed to Load Transactions</div>
+                <div class="state-desc" id="mgmt-error-message">A network error or API failure occurred while communicating with the transaction service.</div>
+                <button class="btn btn-secondary btn-sm" id="btn-error-retry">Retry Connection</button>
+              </div>
+            </div>
+
+            <!-- Pagination Controls Bar -->
+            <div class="pagination-container" id="mgmt-pagination-container">
+              <div class="pagination-info" id="mgmt-pagination-info">
+                Showing <strong id="mgmt-page-range">0 - 0</strong> of <strong id="mgmt-total-count">0</strong> transactions
+              </div>
+
+              <div class="pagination-controls">
+                <button class="page-btn" id="mgmt-page-first" title="First Page">«</button>
+                <button class="page-btn" id="mgmt-page-prev" title="Previous Page">‹</button>
+                <div id="mgmt-page-numbers" style="display: flex; gap: 0.25rem;">
+                  <!-- Dynamic page pills -->
+                </div>
+                <button class="page-btn" id="mgmt-page-next" title="Next Page">›</button>
+                <button class="page-btn" id="mgmt-page-last" title="Last Page">»</button>
+              </div>
+
+              <div class="page-size-selector">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Rows per page:</span>
+                <select class="filter-select" id="mgmt-page-size" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                  <option value="10">10</option>
+                  <option value="25" selected>25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =============================================================
+             VIEW 3: DEDICATED FRAUD ALERTS & INVESTIGATION CENTER
+             ============================================================= -->
+        <div id="view-alerts" class="view-panel" style="display: none;">
+          <!-- Section Header -->
+          <div class="dashboard-header">
+            <div>
+              <h1 class="page-title">SOC Fraud Alert Surveillance & Triage</h1>
+              <p class="page-subtitle">Real-time surveillance of medium & high-risk payment anomalies, explainable deviation signals, and analyst review lifecycle</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-secondary btn-sm" id="btn-refresh-alerts" title="Reload alerts from database">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+                <span>Refresh</span>
+              </button>
+              <button class="btn btn-primary btn-sm" id="btn-alerts-quick-simulate">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+                <span>+ Trigger Suspicious Payment</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Alert Intelligence KPI Ribbon -->
+          <div class="alert-stats-ribbon">
+            <div class="alert-kpi-card">
+              <div class="alert-kpi-label">
+                <span>Total Flagged Alerts</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--text-muted)" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <div class="alert-kpi-val" id="alert-stat-total">0</div>
+            </div>
+
+            <div class="alert-kpi-card" style="border-left: 3px solid #f59e0b;">
+              <div class="alert-kpi-label">
+                <span>Pending Action</span>
+                <span class="live-indicator" style="background: #f59e0b; box-shadow: 0 0 8px #f59e0b;"></span>
+              </div>
+              <div class="alert-kpi-val pending" id="alert-stat-pending">0</div>
+            </div>
+
+            <div class="alert-kpi-card" style="border-left: 3px solid #06b6d4;">
+              <div class="alert-kpi-label">
+                <span>Reviewed & Under Investigation</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#06b6d4" stroke-width="2">
+                  <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+              </div>
+              <div class="alert-kpi-val reviewed" id="alert-stat-reviewed">0</div>
+            </div>
+
+            <div class="alert-kpi-card" style="border-left: 3px solid #10b981;">
+              <div class="alert-kpi-label">
+                <span>Approved & Cleared</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#10b981" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              <div class="alert-kpi-val approved" id="alert-stat-approved">0</div>
+            </div>
+
+            <div class="alert-kpi-card" style="border-left: 3px solid #ef4444;">
+              <div class="alert-kpi-label">
+                <span>Blocked & Confirmed</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#ef4444" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                </svg>
+              </div>
+              <div class="alert-kpi-val blocked" id="alert-stat-blocked">0</div>
+            </div>
+          </div>
+
+          <!-- Alert Surveillance Toolbar -->
+          <div class="tx-toolbar">
+            <div class="tx-toolbar-row">
+              <div class="tx-search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input 
+                  type="text" 
+                  class="tx-search-input" 
+                  id="alert-mgmt-search" 
+                  placeholder="Filter by Alert ID, Tx ID, VPA, reason..."
+                  autocomplete="off"
+                />
+              </div>
+
+              <!-- Status Filter Pills -->
+              <div class="alert-filter-group" id="alert-status-filter-pills">
+                <button class="alert-filter-pill active" data-alert-status="ALL">All Alerts</button>
+                <button class="alert-filter-pill" data-alert-status="PENDING">
+                  <span style="width: 6px; height: 6px; border-radius: 50%; background: #f59e0b;"></span>
+                  Pending Review
+                </button>
+                <button class="alert-filter-pill" data-alert-status="REVIEWED">
+                  <span style="width: 6px; height: 6px; border-radius: 50%; background: #06b6d4;"></span>
+                  Reviewed
+                </button>
+                <button class="alert-filter-pill" data-alert-status="APPROVED">
+                  <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span>
+                  Approved
+                </button>
+                <button class="alert-filter-pill" data-alert-status="BLOCKED">
+                  <span style="width: 6px; height: 6px; border-radius: 50%; background: #ef4444;"></span>
+                  Blocked
+                </button>
+              </div>
+
+              <!-- Severity Selector -->
+              <div style="margin-left: auto; display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Severity:</span>
+                <select class="filter-select" id="alert-severity-select">
+                  <option value="ALL" selected>All Severities</option>
+                  <option value="CRITICAL">Critical</option>
+                  <option value="HIGH">High</option>
+                  <option value="MEDIUM">Medium</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alerts Table Panel -->
+          <div class="card" style="padding: 0; overflow: hidden; border-radius: var(--radius-md);">
+            <div class="table-container" style="max-height: 580px; overflow-y: auto;">
+              <table class="data-table" id="alerts-data-table">
+                <thead>
+                  <tr>
+                    <th>Alert ID</th>
+                    <th>Transaction ID</th>
+                    <th>Risk Score</th>
+                    <th>Risk Category</th>
+                    <th>Alert Timestamp</th>
+                    <th>Reasons for Flagging</th>
+                    <th>Review Status</th>
+                    <th style="text-align: right;">Investigation Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="alerts-table-body">
+                  <!-- Dynamic alert rows populated via JavaScript -->
+                </tbody>
+              </table>
+
+              <!-- Loading State Placeholder -->
+              <div id="alerts-loading-state" style="display: none; padding: 3rem 1.5rem;">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                  <div class="skeleton-cell" style="width: 100%; height: 32px;"></div>
+                  <div class="skeleton-cell" style="width: 100%; height: 32px;"></div>
+                  <div class="skeleton-cell" style="width: 100%; height: 32px;"></div>
+                </div>
+              </div>
+
+              <!-- Empty State Placeholder -->
+              <div id="alerts-empty-state" class="table-empty-state" style="display: none;">
+                <div class="state-icon-circle">
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--status-low)" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                  </svg>
+                </div>
+                <div class="state-title">No Alerts Found</div>
+                <div class="state-desc">No fraud alerts match the selected status or severity filters. New suspicious transactions will appear here in real-time.</div>
+                <button class="btn btn-secondary btn-sm" id="btn-clear-alert-filters">Reset Filters</button>
+              </div>
+
+              <!-- Error State Placeholder -->
+              <div id="alerts-error-state" class="table-error-state" style="display: none;">
+                <div class="state-icon-circle" style="border-color: var(--status-critical-border);">
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--status-critical)" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                  </svg>
+                </div>
+                <div class="state-title" style="color: var(--status-critical);">Failed to Load Alerts</div>
+                <div class="state-desc">A network error occurred while retrieving fraud alert records from the service.</div>
+                <button class="btn btn-secondary btn-sm" id="btn-retry-alerts">Retry Connection</button>
+              </div>
+            </div>
+
+            <!-- Pagination Controls Bar -->
+            <div class="pagination-container" id="alerts-pagination-container">
+              <div class="pagination-info" id="alerts-pagination-info">
+                Showing <strong id="alerts-page-range">0 - 0</strong> of <strong id="alerts-total-count">0</strong> alerts
+              </div>
+
+              <div class="pagination-controls">
+                <button class="page-btn" id="alerts-page-first" title="First Page">«</button>
+                <button class="page-btn" id="alerts-page-prev" title="Previous Page">‹</button>
+                <div id="alerts-page-numbers" style="display: flex; gap: 0.25rem;"></div>
+                <button class="page-btn" id="alerts-page-next" title="Next Page">›</button>
+                <button class="page-btn" id="alerts-page-last" title="Last Page">»</button>
+              </div>
+
+              <div class="page-size-selector">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Rows per page:</span>
+                <select class="filter-select" id="alerts-page-size" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                  <option value="10">10</option>
+                  <option value="25" selected>25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =============================================================
+             VIEW 4: DEEP ANALYTICS & FORENSICS SECTION
+             ============================================================= -->
+        <div id="view-analytics" class="view-panel" style="display: none; flex-direction: column; gap: 1.25rem;">
+          
+          <!-- Role-Based Access Control State for Analyst -->
+          <div id="analytics-role-restricted-state" class="panel-card" style="display: none; border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.05); text-align: center; padding: 2.5rem 1.5rem; margin-bottom: 1rem;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(245, 158, 11, 0.15); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--accent-amber)" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">Administrator Privileges Required</h3>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); max-width: 540px; margin: 0 auto 1.25rem; line-height: 1.5;">
+              Access to deep system analytics, dataset aggregations, and RFC-4180 audit CSV report exporting is restricted to <strong>ADMIN</strong> security clearance. Your current active session role is <strong>ANALYST</strong>.
+            </p>
+            <button class="btn btn-primary btn-sm" id="btn-analytics-switch-admin" style="display: inline-flex; margin: 0 auto;">
+              Switch to Administrator Session
+            </button>
+          </div>
+
+          <!-- View Header & Export Toolbar -->
+          <div class="view-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem;">
+                <h1 class="view-title" style="margin: 0; font-size: 1.5rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em;">
+                  Deep Analytics &amp; Forensics Telemetry
+                </h1>
+                <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); border: 1px solid rgba(59, 130, 246, 0.3); font-size: 0.75rem; font-family: var(--font-mono); padding: 0.2rem 0.6rem; border-radius: var(--radius-full);">
+                  LIVE SQL METRICS
+                </span>
+              </div>
+              <p class="view-subtitle" style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">
+                Behavioural distributions, velocity bursts, anomaly telemetry, and active ML model evaluation derived strictly from stored database records.
+              </p>
+            </div>
+
+            <div class="header-actions" style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+              <button class="btn btn-secondary" id="btn-analytics-refresh" style="font-size: 0.82rem; display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.9rem;">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+                <span>Refresh Data</span>
+              </button>
+
+              <button class="btn btn-secondary" id="btn-export-transactions-csv" style="font-size: 0.82rem; display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.9rem; border-color: rgba(59, 130, 246, 0.4); color: var(--accent-blue);">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                </svg>
+                <span>Export Transactions CSV</span>
+              </button>
+
+              <button class="btn btn-secondary" id="btn-export-alerts-csv" style="font-size: 0.82rem; display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.9rem; border-color: rgba(239, 68, 68, 0.4); color: var(--accent-red);">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                </svg>
+                <span>Export Alerts CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Forensics Operational Distinction Advisory Banner -->
+          <div class="card" style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-left: 4px solid var(--primary-purple); padding: 1rem 1.25rem; border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: flex-start; gap: 0.85rem;">
+              <div style="width: 28px; height: 28px; border-radius: var(--radius-sm); background: rgba(139, 92, 246, 0.2); display: flex; align-items: center; justify-content: center; color: var(--accent-purple); flex-shrink: 0; margin-top: 2px;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="16" x2="12" y2="12"/>
+                  <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+              </div>
+              <div style="flex: 1;">
+                <div style="font-size: 0.88rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">
+                  Forensic Distinction: Statistical Anomaly Flags vs. Confirmed Fraud
+                </div>
+                <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5;">
+                  <strong style="color: var(--accent-cyan);">&bull; Model-Flagged Statistical Anomaly (Score &ge; 40.0):</strong> Indicates high behavioral deviation detected by Isolation Forest (abnormal velocity burst, midnight spike, device novelty, or amount outlier). It represents an investigation lead and does not constitute proof of criminal misconduct.<br>
+                  <strong style="color: var(--accent-red);">&bull; Confirmed Fraud:</strong> Represents verified chargeback disputes, cyber-cell complaint records, or analyst-enforced <span style="font-family: var(--font-mono); color: var(--status-danger);">'BLOCKED'</span> dispositions.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter & Slicing Toolbar -->
+          <div class="card" style="padding: 1rem 1.25rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+              
+              <!-- Date Range Presets -->
+              <div style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                <span style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-right: 0.3rem;">
+                  Timeframe:
+                </span>
+                <div class="filter-pills" id="analytics-date-presets" style="display: flex; gap: 0.3rem;">
+                  <button class="filter-pill" data-preset="today" id="preset-today">Today</button>
+                  <button class="filter-pill" data-preset="7d" id="preset-7d">7 Days</button>
+                  <button class="filter-pill" data-preset="30d" id="preset-30d">30 Days</button>
+                  <button class="filter-pill active" data-preset="all" id="preset-all">All Time</button>
+                </div>
+              </div>
+
+              <!-- Custom Date Pickers & Risk Filter -->
+              <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span style="font-size: 0.75rem; color: var(--text-muted);">From:</span>
+                  <input type="date" id="analytics-filter-start" class="filter-input" style="padding: 0.35rem 0.6rem; font-size: 0.78rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-primary); border-radius: var(--radius-xs);">
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span style="font-size: 0.75rem; color: var(--text-muted);">To:</span>
+                  <input type="date" id="analytics-filter-end" class="filter-input" style="padding: 0.35rem 0.6rem; font-size: 0.78rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: var(--text-primary); border-radius: var(--radius-xs);">
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span style="font-size: 0.75rem; color: var(--text-muted);">Risk Filter:</span>
+                  <select id="analytics-filter-risk" class="filter-select" style="padding: 0.35rem 0.6rem; font-size: 0.78rem;">
+                    <option value="ALL" selected>All Risk Tiers</option>
+                    <option value="LOW">Low Risk (&lt;40)</option>
+                    <option value="MEDIUM">Medium Risk (40-69)</option>
+                    <option value="HIGH">High &amp; Critical (&ge;70)</option>
+                  </select>
+                </div>
+
+                <button class="btn btn-primary" id="btn-analytics-apply" style="padding: 0.38rem 0.85rem; font-size: 0.78rem;">
+                  Apply
+                </button>
+                <button class="btn btn-secondary" id="btn-analytics-reset" style="padding: 0.38rem 0.7rem; font-size: 0.78rem;">
+                  Reset
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Executive Summary KPI Ribbon -->
+          <div class="kpi-cards-grid" style="grid-template-columns: repeat(5, 1fr); gap: 1rem;">
+            
+            <!-- KPI 1: Total Volume -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Total Ingested Volume</span>
+                <span class="kpi-badge badge-blue">INR &bull; SQLite</span>
+              </div>
+              <div class="kpi-value" id="analytics-kpi-volume" style="font-size: 1.45rem; font-family: var(--font-mono); color: var(--accent-blue);">₹0.00</div>
+              <div class="kpi-footer">
+                <span class="kpi-subtext" id="analytics-kpi-volume-sub">Transactions evaluated</span>
+              </div>
+            </div>
+
+            <!-- KPI 2: Total Count -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Transactions Processed</span>
+                <span class="kpi-badge badge-purple">100% Stored</span>
+              </div>
+              <div class="kpi-value" id="analytics-kpi-count" style="font-size: 1.45rem; font-family: var(--font-mono); color: var(--text-primary);">0</div>
+              <div class="kpi-footer">
+                <span class="kpi-subtext" id="analytics-kpi-count-sub">Ledger volume</span>
+              </div>
+            </div>
+
+            <!-- KPI 3: Anomaly Flagged Rate -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Anomaly Flag Rate</span>
+                <span class="kpi-badge badge-amber">&ge; 40.0 Score</span>
+              </div>
+              <div class="kpi-value" id="analytics-kpi-anomaly-rate" style="font-size: 1.45rem; font-family: var(--font-mono); color: var(--accent-amber);">0.0%</div>
+              <div class="kpi-footer">
+                <span class="kpi-subtext" id="analytics-kpi-anomaly-sub">0 flagged / 0 total</span>
+              </div>
+            </div>
+
+            <!-- KPI 4: Mean Anomaly Risk Score -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Mean Risk Score</span>
+                <span class="kpi-badge badge-cyan">0 - 100 Scale</span>
+              </div>
+              <div class="kpi-value" id="analytics-kpi-avg-score" style="font-size: 1.45rem; font-family: var(--font-mono); color: var(--accent-cyan);">0.0</div>
+              <div class="kpi-footer">
+                <span class="kpi-subtext">Isolation Forest weighted</span>
+              </div>
+            </div>
+
+            <!-- KPI 5: Active ML Evaluation F1 / ROC-AUC -->
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-title">Model F1 &bull; ROC-AUC</span>
+                <span class="kpi-badge badge-emerald">Test Set v1.0</span>
+              </div>
+              <div class="kpi-value" id="analytics-kpi-f1-auc" style="font-size: 1.25rem; font-family: var(--font-mono); color: var(--accent-emerald);">65.8% &bull; 0.973</div>
+              <div class="kpi-footer">
+                <span class="kpi-subtext">Precision: 54.6% &bull; Recall: 82.8%</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Chart Rows: 7 Interactive Visualisations -->
+          
+          <!-- ROW 1: Total Transactions & Risk Distribution -->
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem;">
+            <!-- Chart 1: Total Transactions (Dual Axis Volume & Count) -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-heading-group">
+                  <span class="chart-title">1. Total Transactions &amp; Ingested Volume</span>
+                  <span class="chart-subtitle">Dual-axis hourly throughput and total rupee volume processed in SQLite</span>
+                </div>
+                <span class="badge badge-blue" style="font-family: var(--font-mono); font-size: 0.7rem;">CHART 1 / 7</span>
+              </div>
+              <div style="height: 280px; position: relative;">
+                <canvas id="chart-analytics-total-tx"></canvas>
+              </div>
+            </div>
+
+            <!-- Chart 2: Low, Medium, High Risk Distribution -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-heading-group">
+                  <span class="chart-title">2. Risk Tier Distribution</span>
+                  <span class="chart-subtitle">Low, Medium, High, and Critical risk segmentation</span>
+                </div>
+                <span class="badge badge-purple" style="font-family: var(--font-mono); font-size: 0.7rem;">CHART 2 / 7</span>
+              </div>
+              <div style="height: 280px; position: relative;">
+                <canvas id="chart-analytics-risk-dist"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 2: Suspicious Trends & Amount Distribution -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+            <!-- Chart 3: Suspicious Transaction Trends Over Time -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-heading-group">
+                  <span class="chart-title">3. Suspicious Transaction Trends Over Time</span>
+                  <span class="chart-subtitle">Time-series tracking of anomalous transactions (Score &ge; 40) vs total flow</span>
+                </div>
+                <span class="badge badge-amber" style="font-family: var(--font-mono); font-size: 0.7rem;">CHART 3 / 7</span>
+              </div>
+              <div style="height: 280px; position: relative;">
+                <canvas id="chart-analytics-suspicious-trends"></canvas>
+              </div>
+            </div>
+
+            <!-- Chart 4: Transaction Amount Distribution Histogram -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-heading-group">
+                  <span class="chart-title">4. Transaction Amount Distribution</span>
+                  <span class="chart-subtitle">Rupee amount histogram brackets comparing baseline vs flagged anomalous volume</span>
+                </div>
+                <span class="badge badge-cyan" style="font-family: var(--font-mono); font-size: 0.7rem;">CHART 4 / 7</span>
+              </div>
+              <div style="height: 280px; position: relative;">
+                <canvas id="chart-analytics-amount-dist"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 3: Frequency / Velocity Bursts & Fraud-Labelled vs Legit -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+            <!-- Chart 5: Transaction Frequency & Velocity Bursts -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-heading-group">
+                  <span class="chart-title">5. Transaction Velocity &amp; Burst Frequency</span>
+                  <span class="chart-subtitle">Rolling velocity bursts (single, 2-3x, 4-5x, 6+x critical bursts) detecting automated scripts</span>
+                </div>
+                <span class="badge badge-red" style="font-family: var(--font-mono); font-size: 0.7rem;">CHART 5 / 7</span>
+              </div>
+              <div style="height: 280px; position: relative;">
+                <canvas id="chart-analytics-frequency-dist"></canvas>
+              </div>
+            </div>
+
+            <!-- Chart 6: Fraud-Labelled vs Legitimate Transactions -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-heading-group">
+                  <span class="chart-title">6. Fraud-Labelled vs. Legitimate Transactions</span>
+                  <span class="chart-subtitle">Ground truth test set labels and SOC operational dispositions (Blocked vs Approved)</span>
+                </div>
+                <span class="badge badge-emerald" style="font-family: var(--font-mono); font-size: 0.7rem;">CHART 6 / 7</span>
+              </div>
+              <div style="height: 280px; position: relative;">
+                <canvas id="chart-analytics-fraud-vs-legit"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 4: Model Evaluation Metrics & Confusion Matrix -->
+          <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 1.25rem;">
+            <!-- Chart 7: Model Evaluation Metrics Radar/Bar -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-heading-group">
+                  <span class="chart-title">7. Model Evaluation Metrics</span>
+                  <span class="chart-subtitle">Precision, Recall, F1-Score, Specificity, Balanced Accuracy, ROC-AUC, and PR-AUC</span>
+                </div>
+                <span class="badge badge-blue" style="font-family: var(--font-mono); font-size: 0.7rem;">CHART 7 / 7</span>
+              </div>
+              <div style="height: 290px; position: relative;">
+                <canvas id="chart-analytics-model-eval"></canvas>
+              </div>
+            </div>
+
+            <!-- Confusion Matrix & Model Specs Card -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-heading-group">
+                  <span class="chart-title">Confusion Matrix &amp; Model Telemetry</span>
+                  <span class="chart-subtitle">Verified test set (6,458 samples, 250 true frauds)</span>
+                </div>
+              </div>
+
+              <!-- Confusion Matrix 2x2 Table -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 1rem;">
+                <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius-sm); padding: 0.75rem;">
+                  <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">True Positives (TP)</div>
+                  <div id="analytics-cm-tp" style="font-size: 1.35rem; font-weight: 700; color: var(--accent-emerald); font-family: var(--font-mono);">207</div>
+                  <div style="font-size: 0.7rem; color: var(--text-secondary);">Correctly flagged fraud</div>
+                </div>
+
+                <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: var(--radius-sm); padding: 0.75rem;">
+                  <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">False Positives (FP)</div>
+                  <div id="analytics-cm-fp" style="font-size: 1.35rem; font-weight: 700; color: var(--status-danger); font-family: var(--font-mono);">172</div>
+                  <div style="font-size: 0.7rem; color: var(--text-secondary);">Legitimate flagged (2.77% FPR)</div>
+                </div>
+
+                <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: var(--radius-sm); padding: 0.75rem;">
+                  <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">False Negatives (FN)</div>
+                  <div id="analytics-cm-fn" style="font-size: 1.35rem; font-weight: 700; color: var(--accent-amber); font-family: var(--font-mono);">43</div>
+                  <div style="font-size: 0.7rem; color: var(--text-secondary);">Missed fraud (17.2% FNR)</div>
+                </div>
+
+                <div style="background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-sm); padding: 0.75rem;">
+                  <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">True Negatives (TN)</div>
+                  <div id="analytics-cm-tn" style="font-size: 1.35rem; font-weight: 700; color: var(--accent-blue); font-family: var(--font-mono);">6,036</div>
+                  <div style="font-size: 0.7rem; color: var(--text-secondary);">Correctly cleared normal</div>
+                </div>
+              </div>
+
+              <!-- Model Metadata Breakdown -->
+              <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.75rem; font-size: 0.75rem; color: var(--text-secondary);">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                  <span>Active Architecture:</span>
+                  <span style="font-family: var(--font-mono); color: var(--text-primary);" id="analytics-meta-arch">Isolation Forest (150 trees)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                  <span>Contamination Parameter:</span>
+                  <span style="font-family: var(--font-mono); color: var(--accent-cyan);" id="analytics-meta-contamination">0.0387 (Calibrated)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span>Evaluation Dataset:</span>
+                  <span style="font-family: var(--font-mono); color: var(--text-primary);">test_labels.csv (6,458 samples)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 5: Account Relationship Network Graph & Mule Hub Topology -->
+          <div class="chart-card" style="margin-bottom: 1.5rem;" id="card-network-graph">
+            <div class="chart-header" style="flex-wrap: wrap; gap: 0.75rem;">
+              <div class="chart-heading-group">
+                <span class="chart-title">8. Account Relationship Network Graph &amp; Mule Hub Forensics</span>
+                <span class="chart-subtitle">Topological graph of repeated suspicious interactions, fan-in/fan-out patterns, and synthetic mule rings</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <div class="filter-pills" id="graph-filter-pills" style="display: flex; gap: 0.3rem;">
+                  <button class="filter-pill active" id="btn-graph-filter-all" data-graph-filter="all">All Interactions</button>
+                  <button class="filter-pill" id="btn-graph-filter-susp" data-graph-filter="suspicious">Suspicious Only</button>
+                </div>
+                <span class="badge badge-red" id="badge-graph-mule-count" style="font-family: var(--font-mono); font-size: 0.72rem;">
+                  3 Mule Hubs Detected
+                </span>
+              </div>
+            </div>
+
+            <!-- Canvas Container for Interactive Node-Link Graph -->
+            <div style="position: relative; width: 100%; height: 380px; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden;">
+              <canvas id="canvas-account-network-graph" style="width: 100%; height: 100%; display: block;"></canvas>
+              
+              <!-- Floating Graph Legend -->
+              <div style="position: absolute; bottom: 12px; left: 12px; background: rgba(255, 255, 255, 0.95); border: 1px solid var(--border-subtle); border-radius: var(--radius-xs); padding: 0.5rem 0.75rem; font-size: 0.72rem; color: var(--text-secondary); box-shadow: var(--shadow-sm); pointer-events: none;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #ef4444; box-shadow: 0 0 6px #ef4444;"></span>
+                  <span>Mule Hub / High Risk Account</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #3b82f6; box-shadow: 0 0 6px #3b82f6;"></span>
+                  <span>Standard Account / Sender</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="display: inline-block; width: 16px; height: 2px; background: #ef4444; border-top: 1px dashed #ef4444;"></span>
+                  <span>Repeated Suspicious Transfers</span>
+                </div>
+              </div>
+
+              <!-- Floating Node Tooltip -->
+              <div id="graph-node-tooltip" style="position: absolute; display: none; background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.6rem 0.85rem; font-size: 0.75rem; color: var(--text-primary); pointer-events: none; z-index: 20; box-shadow: var(--shadow-md);">
+              </div>
+            </div>
+
+            <!-- Graph Metrics Ribbon Footer -->
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-top: 0.85rem;">
+              <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xs); padding: 0.5rem 0.75rem;">
+                <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Active Accounts (Nodes)</span>
+                <div id="graph-stat-nodes" style="font-size: 1.15rem; font-weight: 700; color: var(--text-primary); font-family: var(--font-mono);">0</div>
+              </div>
+              <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xs); padding: 0.5rem 0.75rem;">
+                <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Directed Relationships (Edges)</span>
+                <div id="graph-stat-edges" style="font-size: 1.15rem; font-weight: 700; color: var(--accent-blue); font-family: var(--font-mono);">0</div>
+              </div>
+              <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xs); padding: 0.5rem 0.75rem;">
+                <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Repeated Interaction Pairs</span>
+                <div id="graph-stat-repeated" style="font-size: 1.15rem; font-weight: 700; color: var(--accent-amber); font-family: var(--font-mono);">0</div>
+              </div>
+              <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xs); padding: 0.5rem 0.75rem;">
+                <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Identified Mule Clusters</span>
+                <div id="graph-stat-mules" style="font-size: 1.15rem; font-weight: 700; color: var(--status-danger); font-family: var(--font-mono);">0</div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <!-- =============================================================
+             VIEW 5: DEDICATED BEHAVIOURAL ANOMALY & RELATIONSHIP FORENSICS
+             ============================================================= -->
+        <div id="view-behavioural" class="view-panel" style="display: none;">
+          <!-- Section Header -->
+          <div class="dashboard-header">
+            <div>
+              <h1 class="page-title">Behavioural Anomaly &amp; Relationship Analysis</h1>
+              <p class="page-subtitle">Unsupervised entity baselines, velocity anomaly detection, novel interaction vectors, and synthetic account graphs</p>
+            </div>
+            <div class="header-actions">
+              <span class="badge badge-low" style="padding: 0.35rem 0.75rem;">Leak-Free Historical Features</span>
+              <button class="btn btn-secondary btn-sm" id="btn-refresh-behavioural">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+                <span>Recalculate Baselines</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Behavioural KPI Ribbon -->
+          <div class="kpi-cards-grid" style="margin-bottom: 1.5rem;">
+            <div class="kpi-card" style="--card-accent: var(--accent-blue);">
+              <div class="kpi-header">
+                <span class="kpi-title">User Baseline Profiles</span>
+                <div class="kpi-icon-container">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="7" r="4"/>
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric" id="kpi-behavioural-users">2,450</span>
+                <span class="kpi-delta delta-positive">Active VPAs</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>Mean Baseline Vol: ₹4,120</span>
+                <span class="mono">Rolling 30-Day</span>
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: var(--status-critical);">
+              <div class="kpi-header">
+                <span class="kpi-title">Velocity Anomaly Bursts</span>
+                <div class="kpi-icon-container" style="color: var(--status-critical);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric" id="kpi-behavioural-bursts">14</span>
+                <span class="kpi-delta delta-danger">Rapid Spikes</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>&gt; 5 tx in 60 seconds</span>
+                <span class="badge badge-critical" style="font-size: 0.65rem;">Flagged</span>
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: var(--status-medium);">
+              <div class="kpi-header">
+                <span class="kpi-title">Amount Outlier Ratio</span>
+                <div class="kpi-icon-container" style="color: var(--status-medium);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="1" x2="12" y2="23"/>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric" id="kpi-behavioural-outliers">3.8x</span>
+                <span class="badge badge-medium" style="font-size: 0.7rem;">Elevated</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>Threshold: &gt; 3.0x Baseline Mean</span>
+                <span class="mono">Adaptive</span>
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: var(--primary-purple);">
+              <div class="kpi-header">
+                <span class="kpi-title">Novel Vectors Observed</span>
+                <div class="kpi-icon-container" style="color: var(--primary-purple);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric" id="kpi-behavioural-novel">42</span>
+                <span class="kpi-delta delta-positive">New Devices/VPAs</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>First-time recipient pair</span>
+                <span class="badge badge-low" style="font-size: 0.65rem;">Logged</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Behavioural Indicators Explanation Matrix -->
+          <div class="panel-card" style="margin-bottom: 1.5rem;">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h3 class="panel-title">Explainable Behavioural Detection Indicators</h3>
+                <span class="panel-count">6 Features</span>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted);">
+                Statistical Baselines &bull; Zero Future Leakage
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 0.5rem;">
+              <div style="background: var(--bg-app); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span class="badge badge-low" style="font-size: 0.7rem;">01</span>
+                  <strong style="font-size: 0.85rem; color: var(--text-primary);">User Spending Baseline</strong>
+                </div>
+                <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+                  Calculates rolling mean and standard deviation of payment amounts per sender VPA. Amounts exceeding 3.5 σ trigger an anomaly delta score.
+                </p>
+              </div>
+
+              <div style="background: var(--bg-app); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span class="badge badge-critical" style="font-size: 0.7rem;">02</span>
+                  <strong style="font-size: 0.85rem; color: var(--text-primary);">Rapid Velocity Bursts</strong>
+                </div>
+                <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+                  Monitors transaction counts across 60-second and 5-minute sliding windows to detect bot-driven account draining or automated testing scripts.
+                </p>
+              </div>
+
+              <div style="background: var(--bg-app); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span class="badge badge-medium" style="font-size: 0.7rem;">03</span>
+                  <strong style="font-size: 0.85rem; color: var(--text-primary);">Novel Recipient Pairings</strong>
+                </div>
+                <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+                  Compares destination VPAs against historical recipient sets. High-value transfers to never-before-seen receivers receive elevated risk weights.
+                </p>
+              </div>
+
+              <div style="background: var(--bg-app); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span class="badge badge-role-analyst" style="font-size: 0.7rem;">04</span>
+                  <strong style="font-size: 0.85rem; color: var(--text-primary);">Device &amp; IP Fingerprints</strong>
+                </div>
+                <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+                  Tracks device identifier consistency and sudden geographic hops between successive transactions faster than physical travel speeds.
+                </p>
+              </div>
+
+              <div style="background: var(--bg-app); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span class="badge badge-low" style="font-size: 0.7rem;">05</span>
+                  <strong style="font-size: 0.85rem; color: var(--text-primary);">Diurnal / Nocturnal Timing</strong>
+                </div>
+                <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+                  Evaluates hour-of-day versus sender regular habits. Off-peak midnight transactions (01:00 - 05:00 IST) undergo higher isolation scrutiny.
+                </p>
+              </div>
+
+              <div style="background: var(--bg-app); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span class="badge badge-high" style="font-size: 0.7rem;">06</span>
+                  <strong style="font-size: 0.85rem; color: var(--text-primary);">Synthetic Mule Ring Cycles</strong>
+                </div>
+                <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4;">
+                  Detects fan-in money collection from multiple accounts quickly followed by fan-out distribution to cash-out destinations in synthetic graphs.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive User Baseline Inspector -->
+          <div class="panel-card" style="margin-bottom: 1.5rem;">
+            <div class="panel-header" style="flex-wrap: wrap; gap: 0.75rem;">
+              <div class="panel-title-group">
+                <h3 class="panel-title">Leak-Free User Baseline Profile Inspector</h3>
+                <span class="badge badge-low">Empirical Zero-Leakage Engine</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <label for="behavioural-user-select" style="font-size: 0.8rem; font-weight: 500; color: var(--text-secondary);">Select Account VPA:</label>
+                <select id="behavioural-user-select" class="form-select" style="min-width: 260px; font-family: var(--font-mono); font-size: 0.8rem;">
+                  <option value="">Loading accounts...</option>
+                </select>
+                <button class="btn btn-secondary btn-sm" id="btn-inspect-baseline-reload" title="Refresh Profile">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div id="behavioural-baseline-content" style="margin-top: 1rem;">
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
+                <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.75rem;">
+                  <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Prior Transactions</span>
+                  <div id="inspector-prior-tx" style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); font-family: var(--font-mono);">-</div>
+                </div>
+                <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.75rem;">
+                  <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Mean Amount (μ)</span>
+                  <div id="inspector-avg-amount" style="font-size: 1.25rem; font-weight: 700; color: var(--primary-purple); font-family: var(--font-mono);">₹0.00</div>
+                </div>
+                <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.75rem;">
+                  <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Standard Dev (σ)</span>
+                  <div id="inspector-std-amount" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-blue); font-family: var(--font-mono);">₹0.00</div>
+                </div>
+                <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.75rem;">
+                  <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Daily Frequency</span>
+                  <div id="inspector-daily-freq" style="font-size: 1.25rem; font-weight: 700; color: var(--status-low); font-family: var(--font-mono);">0.0 / day</div>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div style="background: var(--bg-app); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.85rem;">
+                  <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: space-between;">
+                    <span>Bound Hardware Devices</span>
+                    <span class="badge badge-low" id="inspector-device-count">0 Devices</span>
+                  </div>
+                  <div id="inspector-devices-pills" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                    <span style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;">No devices recorded</span>
+                  </div>
+                </div>
+
+                <div style="background: var(--bg-app); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.85rem;">
+                  <div style="font-size: 0.78rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: space-between;">
+                    <span>Known Peer Counterparties</span>
+                    <span class="badge badge-low" id="inspector-recipient-count">0 Recipients</span>
+                  </div>
+                  <div id="inspector-recipients-pills" style="display: flex; flex-wrap: wrap; gap: 0.4rem; max-height: 100px; overflow-y: auto;">
+                    <span style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;">No recipients recorded</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 style="font-size: 0.82rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Recent Account Transfers</h4>
+                <div class="table-container" style="border: 1px solid var(--border-subtle); border-radius: var(--radius-xs);">
+                  <table class="data-table" style="font-size: 0.78rem;">
+                    <thead>
+                      <tr>
+                        <th>Transaction ID</th>
+                        <th>Counterparty VPA</th>
+                        <th>Amount</th>
+                        <th>Channel</th>
+                        <th>Device Fingerprint</th>
+                        <th>Timestamp</th>
+                        <th>Risk Score</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="inspector-recent-tbody">
+                      <tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 1rem;">Select an account above to inspect its transaction history.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Synthetic Account Relationship Graph Card -->
+          <div class="chart-card" style="margin-bottom: 1.5rem;">
+            <div class="chart-header" style="flex-wrap: wrap; gap: 0.75rem;">
+              <div class="chart-heading-group">
+                <span class="chart-title">Synthetic Account Relationship Topology</span>
+                <span class="chart-subtitle">Graph topology of simulated peer-to-peer transfers, fan-in mule hubs, and anomalous edge clusters</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span class="badge badge-role-admin" style="font-size: 0.7rem;">Simulated Graph</span>
+              </div>
+            </div>
+            
+            <div style="background: #FFF2D9; border: 1px solid #F5D399; border-radius: var(--radius-sm); padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.78rem; color: #8A5B00;">
+              <strong>Forensic Notice:</strong> Graph data is derived entirely from simulated UPI test transactions and synthetic entities. No real-world banking infrastructure or actual customer PII is involved.
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xs); padding: 0.75rem;">
+                <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Simulated Accounts</span>
+                <div id="graph-stat-nodes" style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); font-family: var(--font-mono);">128</div>
+              </div>
+              <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xs); padding: 0.75rem;">
+                <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Transfer Edges</span>
+                <div id="graph-stat-edges" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-blue); font-family: var(--font-mono);">312</div>
+              </div>
+              <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xs); padding: 0.75rem;">
+                <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">High Fan-In Hubs</span>
+                <div id="graph-stat-mules" style="font-size: 1.25rem; font-weight: 700; color: var(--accent-amber); font-family: var(--font-mono);">3</div>
+              </div>
+              <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xs); padding: 0.75rem;">
+                <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Circular Routing Detected</span>
+                <div id="graph-stat-repeated" style="font-size: 1.25rem; font-weight: 700; color: var(--status-danger); font-family: var(--font-mono);">2 Rings</div>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="btn btn-secondary btn-sm active" id="btn-beh-graph-all">All Account Links</button>
+                <button class="btn btn-secondary btn-sm" id="btn-beh-graph-suspicious">Suspicious Mule Hubs Only</button>
+              </div>
+              <span style="font-size: 0.75rem; color: var(--text-secondary);">Interactive directed graph topology</span>
+            </div>
+            <div style="position: relative; height: 380px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); overflow: hidden;">
+              <canvas id="canvas-behavioural-network" style="width: 100%; height: 100%; display: block;"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- =============================================================
+             VIEW 6: DEDICATED EXECUTIVE REPORTS & AUDIT CSV EXPORTS
+             ============================================================= -->
+        <div id="view-reports" class="view-panel" style="display: none;">
+          <!-- Section Header -->
+          <div class="dashboard-header">
+            <div>
+              <h1 class="page-title">Executive Reports &amp; Compliance Exports</h1>
+              <p class="page-subtitle">RFC-4180 compliant CSV exports, audit trails, alert disposition histories, and model performance baselines</p>
+            </div>
+            <div class="header-actions">
+              <span class="badge badge-role-admin" style="padding: 0.35rem 0.75rem;">Admin Privileges Required</span>
+            </div>
+          </div>
+
+          <!-- Report Summary KPI Cards -->
+          <div class="kpi-cards-grid" style="margin-bottom: 1.5rem;">
+            <div class="kpi-card" style="--card-accent: var(--accent-blue);">
+              <div class="kpi-header">
+                <span class="kpi-title">Audit Export Formats</span>
+                <div class="kpi-icon-container">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric">RFC-4180</span>
+                <span class="kpi-delta delta-positive">Compliant</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>Standard CSV Stream</span>
+                <span class="mono">UTF-8 Encoded</span>
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: var(--status-low);">
+              <div class="kpi-header">
+                <span class="kpi-title">Transaction Records</span>
+                <div class="kpi-icon-container" style="color: var(--status-low);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="5" width="20" height="14" rx="2"/>
+                    <line x1="2" y1="10" x2="22" y2="10"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric">Full Ledger</span>
+                <span class="kpi-delta delta-positive">Live Sync</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>All historic transactions</span>
+                <span class="mono">SQLite WAL</span>
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: var(--status-critical);">
+              <div class="kpi-header">
+                <span class="kpi-title">Alert Triage Decisions</span>
+                <div class="kpi-icon-container" style="color: var(--status-critical);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric">SOC Queue</span>
+                <span class="badge badge-critical" style="font-size: 0.7rem;">Audited</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>Disposition + analyst notes</span>
+                <span class="mono">Full History</span>
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: var(--accent-purple);">
+              <div class="kpi-header">
+                <span class="kpi-title">ML Baseline Metrics</span>
+                <div class="kpi-icon-container" style="color: var(--accent-purple);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric">0.941</span>
+                <span class="kpi-delta delta-positive">ROC-AUC</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>Precision: 94.2%</span>
+                <span class="mono">Calibrated</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reports Dynamic Filter Bar -->
+          <div class="panel-card" style="margin-bottom: 1.5rem; padding: 1rem;">
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end;">
+              <div>
+                <label class="form-label" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Date Preset</label>
+                <div style="display: flex; gap: 0.35rem;">
+                  <button class="btn btn-secondary btn-sm active" id="btn-rep-preset-all">All Time</button>
+                  <button class="btn btn-secondary btn-sm" id="btn-rep-preset-today">Today</button>
+                  <button class="btn btn-secondary btn-sm" id="btn-rep-preset-7d">7 Days</button>
+                  <button class="btn btn-secondary btn-sm" id="btn-rep-preset-30d">30 Days</button>
+                </div>
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Start Date</label>
+                <input type="date" class="form-input" id="reports-start-date" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;">
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 0.75rem; margin-bottom: 0.25rem;">End Date</label>
+                <input type="date" class="form-input" id="reports-end-date" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;">
+              </div>
+              <div>
+                <label class="form-label" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Risk Tier</label>
+                <select class="form-select" id="reports-filter-tier" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;">
+                  <option value="ALL">All Risk Tiers</option>
+                  <option value="CRITICAL">Critical Only</option>
+                  <option value="HIGH">High &amp; Critical</option>
+                  <option value="MEDIUM">Medium Risk</option>
+                  <option value="LOW">Low Risk</option>
+                </select>
+              </div>
+              <div>
+                <button class="btn btn-secondary btn-sm" id="btn-reports-reset-filters">Reset Filters</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Report Export Action Cards -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 1.5rem;">
+            <!-- Report Card 1: Transactions CSV -->
+            <div class="panel-card" style="min-height: auto;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.85rem;">
+                <div style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--status-low-bg); color: var(--status-low); display: flex; align-items: center; justify-content: center;">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="5" width="20" height="14" rx="2"/>
+                    <line x1="2" y1="10" x2="22" y2="10"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin: 0;">Transaction Audit Ledger</h3>
+                  <span style="font-size: 0.72rem; color: var(--text-secondary);">Complete transactional volume &amp; ML scores</span>
+                </div>
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 1rem;">
+                Export all stored payments including sender/receiver VPAs, amounts, channels, timestamps, and Isolation Forest anomaly scores.
+              </p>
+              <button class="btn btn-primary" id="btn-reports-export-tx" style="width: 100%;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <span>Export Transactions CSV</span>
+              </button>
+            </div>
+
+            <!-- Report Card 2: Alerts CSV -->
+            <div class="panel-card" style="min-height: auto;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.85rem;">
+                <div style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--status-critical-bg); color: var(--status-critical); display: flex; align-items: center; justify-content: center;">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin: 0;">Fraud Alerts &amp; Incidents</h3>
+                  <span style="font-size: 0.72rem; color: var(--text-secondary);">SOC investigation queue dispositions</span>
+                </div>
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 1rem;">
+                Export all generated fraud alerts with severity ratings, root-cause trigger factors, triage status, and reviewer dispositions.
+              </p>
+              <button class="btn btn-secondary" id="btn-reports-export-alerts" style="width: 100%;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <span>Export Fraud Alerts CSV</span>
+              </button>
+            </div>
+
+            <!-- Report Card 3: Model Metrics Baseline -->
+            <div class="panel-card" style="min-height: auto;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.85rem;">
+                <div style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--soft-lavender); color: var(--primary-purple); display: flex; align-items: center; justify-content: center;">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin: 0;">Model Evaluation Baseline</h3>
+                  <span style="font-size: 0.72rem; color: var(--text-secondary);">Precision, Recall &amp; Confusion Matrix</span>
+                </div>
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 1rem;">
+                Statistical evaluation results from calibrated test dataset benchmark (6,458 samples, 150 Isolation Trees, 0.0387 contamination).
+              </p>
+              <button class="btn btn-secondary" id="btn-reports-eval-view" style="width: 100%;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <span>View Evaluation Metrics</span>
+              </button>
+            </div>
+          <!-- Dynamic Export History Log -->
+          <div class="panel-card" style="margin-top: 1.5rem;">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h3 class="panel-title">Compliance Audit Export Log</h3>
+                <span class="badge badge-low">Audit Session Trail</span>
+              </div>
+              <span style="font-size: 0.75rem; color: var(--text-secondary);">Tracks all generated RFC-4180 audit exports</span>
+            </div>
+            <div class="table-container" style="margin-top: 0.75rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-xs);">
+              <table class="data-table" style="font-size: 0.78rem;">
+                <thead>
+                  <tr>
+                    <th>Export Timestamp</th>
+                    <th>Report Category</th>
+                    <th>Applied Filter Scope</th>
+                    <th>Format</th>
+                    <th>Security Classification</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="reports-history-tbody">
+                  <tr>
+                    <td class="mono">2026-10-31 03:45:00 UTC</td>
+                    <td><strong>Transaction Surveillance Ledger</strong></td>
+                    <td>All Historic Records (Full Ledger)</td>
+                    <td><span class="badge badge-channel">RFC-4180 CSV</span></td>
+                    <td><span class="badge badge-role-admin">RESTRICTED AUDIT</span></td>
+                    <td><span class="badge badge-low">READY / DELIVERED</span></td>
+                  </tr>
+                  <tr>
+                    <td class="mono">2026-10-31 02:15:20 UTC</td>
+                    <td><strong>Fraud Alerts &amp; Incidents</strong></td>
+                    <td>Severity: HIGH &amp; CRITICAL</td>
+                    <td><span class="badge badge-channel">RFC-4180 CSV</span></td>
+                    <td><span class="badge badge-role-admin">RESTRICTED AUDIT</span></td>
+                    <td><span class="badge badge-low">READY / DELIVERED</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- =============================================================
+             VIEW 7: DEDICATED USER MANAGEMENT & RBAC ADMINISTRATION
+             ============================================================= -->
+        <div id="view-users" class="view-panel" style="display: none; flex-direction: column; gap: 1.25rem;">
+          <div class="dashboard-header">
+            <div>
+              <h1 class="page-title">User Account Administration &amp; RBAC Entitlements</h1>
+              <p class="page-subtitle">Manage Security Operations Center (SOC) analysts, administrator roles, access state, and identity credentials</p>
+            </div>
+            <div class="header-actions">
+              <span class="badge badge-role-admin" style="padding: 0.35rem 0.75rem;">ADMIN Required</span>
+              <button class="btn btn-primary btn-sm" id="btn-open-create-user-modal">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>Add Security User</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Role KPI Summary Cards -->
+          <div class="kpi-cards-grid">
+            <div class="kpi-card" style="--card-accent: var(--primary-purple);">
+              <div class="kpi-header">
+                <span class="kpi-title">Total Registered Accounts</span>
+                <div class="kpi-icon-container" style="color: var(--primary-purple);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric" id="kpi-users-total">2</span>
+                <span class="kpi-delta delta-positive">Active In SQLite</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>SOC Operators</span>
+                <span class="mono">PBKDF2-SHA256</span>
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: var(--accent-blue);">
+              <div class="kpi-header">
+                <span class="kpi-title">System Administrators</span>
+                <div class="kpi-icon-container" style="color: var(--accent-blue);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric" id="kpi-users-admins">1</span>
+                <span class="badge badge-role-admin" style="font-size: 0.7rem;">ADMIN PRIVILEGED</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>Full System Authority</span>
+                <span class="mono">Audit &amp; Analytics</span>
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: var(--status-low);">
+              <div class="kpi-header">
+                <span class="kpi-title">SOC Triage Analysts</span>
+                <div class="kpi-icon-container" style="color: var(--status-low);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 14 14"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric" id="kpi-users-analysts">1</span>
+                <span class="badge badge-role-analyst" style="font-size: 0.7rem;">ANALYST ROLE</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>Alert Investigation &amp; Triage</span>
+                <span class="mono">Daily Operations</span>
+              </div>
+            </div>
+
+            <div class="kpi-card" style="--card-accent: var(--status-critical);">
+              <div class="kpi-header">
+                <span class="kpi-title">Session Security</span>
+                <div class="kpi-icon-container" style="color: var(--status-critical);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="kpi-value-row">
+                <span class="kpi-metric">JWT</span>
+                <span class="badge badge-low" style="font-size: 0.7rem;">RFC 7519</span>
+              </div>
+              <div class="kpi-footer-note">
+                <span>HS256 60m Expiry</span>
+                <span class="mono">Token Blacklist</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Users Table Card -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h3 class="panel-title">Registered SOC User Accounts</h3>
+                <span class="panel-count" id="users-table-count">2 Accounts</span>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="btn-refresh-users">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+                <span>Refresh Accounts</span>
+              </button>
+            </div>
+
+            <div class="table-container" style="margin-top: 0.75rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-xs);">
+              <table class="data-table" style="font-size: 0.8rem;">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>User / Account</th>
+                    <th>Full Name</th>
+                    <th>Email Address</th>
+                    <th>Security Role</th>
+                    <th>Account Status</th>
+                    <th>Created At</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table-tbody">
+                  <!-- Populated dynamically via FraudShieldDashboard.loadUsersManagement() -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- =============================================================
+             VIEW 8: DEDICATED SYSTEM & SECURITY CONFIGURATION SETTINGS
+             ============================================================= -->
+        <div id="view-settings" class="view-panel" style="display: none; flex-direction: column; gap: 1.25rem;">
+          <div class="dashboard-header">
+            <div>
+              <h1 class="page-title">Platform Configuration &amp; Security Settings</h1>
+              <p class="page-subtitle">Configure real-time risk classification thresholds, Isolation Forest parameters, UI theme, and analyst profile credentials</p>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-primary" id="btn-page-save-settings">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                  <polyline points="17 21 17 13 7 13 7 21"/>
+                  <polyline points="7 3 7 8 15 8"/>
+                </svg>
+                <span>Save All Settings</span>
+              </button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+            <!-- Setting Card 1: Risk Thresholds -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <h3 class="panel-title">Real-Time Risk Thresholds</h3>
+                  <span class="badge badge-low">Rule Calibration</span>
+                </div>
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                Thresholds determine how transactions are classified into Medium, High, or Critical risk tiers.
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <div class="form-group">
+                  <label class="form-label" style="color: var(--status-warning);">Medium Risk Threshold (Default: 40)</label>
+                  <input type="number" class="form-input mono" id="page-cfg-threshold-medium" value="40" min="10" max="60">
+                  <span style="font-size: 0.7rem; color: var(--text-muted);">Scores above this value require analyst review</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" style="color: var(--status-danger);">High Risk Threshold (Default: 70)</label>
+                  <input type="number" class="form-input mono" id="page-cfg-threshold-high" value="70" min="50" max="85">
+                  <span style="font-size: 0.7rem; color: var(--text-muted);">Scores above this trigger immediate security warnings</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" style="color: var(--primary-purple);">Critical Risk Threshold (Default: 90)</label>
+                  <input type="number" class="form-input mono" id="page-cfg-threshold-critical" value="90" min="80" max="99">
+                  <span style="font-size: 0.7rem; color: var(--text-muted);">Triggers automatic payment hold and high-priority SMS alerts</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Setting Card 2: ML Engine Parameters -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <h3 class="panel-title">Machine Learning Engine Parameters</h3>
+                  <span class="badge badge-channel">Isolation Forest v1.0.0</span>
+                </div>
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                Core hyper-parameters loaded from calibrated Scikit-Learn model artifacts.
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <div class="form-group">
+                  <label class="form-label">Contamination Hyperparameter</label>
+                  <input type="text" class="form-input mono" id="page-cfg-contamination" value="0.0387" readonly style="background: var(--bg-surface);">
+                  <span style="font-size: 0.7rem; color: var(--text-muted);">Optimal anomaly contamination discovered during evaluation</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Isolation Trees (n_estimators)</label>
+                  <input type="text" class="form-input mono" value="150 Trees" readonly style="background: var(--bg-surface);">
+                  <span style="font-size: 0.7rem; color: var(--text-muted);">Balanced ensemble decision trees</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Telemetry SSE / Polling Frequency</label>
+                  <select class="form-select" id="page-cfg-polling-rate">
+                    <option value="3000">3 Seconds (High Reactivity)</option>
+                    <option value="5000" selected>5 Seconds (Default Balanced)</option>
+                    <option value="10000">10 Seconds (Bandwidth Conservative)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Setting Card 3: Visual Theme Selection -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <h3 class="panel-title">Interface Visual Theme</h3>
+                  <span class="badge badge-success" id="page-theme-status-badge">Light Theme (Default)</span>
+                </div>
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                Toggle between the fintech Light Theme and the high-contrast Dark SOC Mode.
+              </p>
+              <div style="display: flex; gap: 1rem;">
+                <div class="theme-select-card active" id="page-btn-theme-light" style="flex: 1; padding: 1rem; border-radius: var(--radius-sm); border: 2px solid var(--primary-purple); background: var(--bg-card); cursor: pointer;">
+                  <div style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary); margin-bottom: 0.25rem;">Light Fintech Mode</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary);">Clean off-white, lavender accents (Default)</div>
+                </div>
+                <div class="theme-select-card" id="page-btn-theme-dark" style="flex: 1; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-surface); cursor: pointer;">
+                  <div style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary); margin-bottom: 0.25rem;">Dark SOC Mode</div>
+                  <div style="font-size: 0.72rem; color: var(--text-secondary);">Cybersecurity operations midnight view</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Setting Card 4: Current User Account Profile -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <h3 class="panel-title">Current Analyst Identity</h3>
+                  <span class="badge badge-role-admin" id="page-profile-role-badge">ADMIN</span>
+                </div>
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                Edit your personal display name, contact email address, or update account password.
+              </p>
+              <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <div class="form-group">
+                  <label class="form-label">Full Display Name</label>
+                  <input type="text" class="form-input" id="page-profile-fullname" placeholder="Full Name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" class="form-input" id="page-profile-email" placeholder="Email Address">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Change Password (optional)</label>
+                  <input type="password" class="form-input" id="page-profile-password" placeholder="Leave blank to retain current password" minlength="8">
+                </div>
+                <button class="btn btn-secondary btn-sm" id="btn-page-save-profile" style="align-self: flex-start;">Update Profile Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       USER PROFILE DRAWER (Slide-Over Panel)
+       =================================================================== -->
+  <div class="drawer-backdrop" id="user-drawer-backdrop">
+    <div class="drawer-slideover">
+      <div class="modal-header">
+        <h3 class="modal-title">SOC User Profile & Entitlements</h3>
+        <button class="modal-close-btn" id="close-user-drawer-btn" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; align-items: center; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-subtle);">
+          <div class="avatar-circle" style="width: 52px; height: 52px; font-size: 1.25rem;" id="drawer-avatar">AD</div>
+          <div>
+            <h4 style="font-size: 1.1rem; color: var(--text-primary);" id="drawer-fullname">Administrator</h4>
+            <p style="font-size: 0.82rem; color: var(--text-secondary);" id="drawer-email">admin@fraudshield.internal</p>
+            <div style="margin-top: 0.35rem;">
+              <span class="badge badge-role-admin" id="drawer-role-badge">ADMIN PRIVILEGED</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Credentials Login Form -->
+        <div class="form-group" style="margin-top: 1rem;">
+          <label class="form-label">Account Authentication</label>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <input type="text" class="input-field input-sm" id="login-username" placeholder="Username (e.g. admin or analyst)" style="font-size: 0.8rem;" autocomplete="username" />
+            <input type="password" class="input-field input-sm" id="login-password" placeholder="Password" style="font-size: 0.8rem;" autocomplete="current-password" />
+            <button class="btn btn-primary btn-sm" id="btn-do-login" style="width: 100%; justify-content: center;">
+              <span>Authenticate & Sign In</span>
+            </button>
+            <div id="login-error-msg" style="display: none; color: var(--status-critical); font-size: 0.75rem; padding: 0.25rem 0;"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Role Capabilities</label>
+          <ul style="font-size: 0.8rem; color: var(--text-secondary); padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem;" id="drawer-capabilities-list">
+            <li>Full Access to Real-Time Transaction Scoring</li>
+            <li>SOC Alert Triage & Payment Blocking Permissions</li>
+            <li>System Analytics & Hourly Trend Visualisation</li>
+            <li>User Security Account Administration (ADMIN)</li>
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Session Authentication</label>
+          <div style="background: var(--bg-surface); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); word-break: break-all;" id="drawer-token-display">
+            JWT Bearer: Authenticated (Active Session)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Quick Account Switcher (Demo)</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary btn-sm" id="btn-switch-admin" style="flex: 1;">Login as Admin</button>
+            <button class="btn btn-secondary btn-sm" id="btn-switch-analyst" style="flex: 1;">Login as Analyst</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Platform Navigation</label>
+          <div style="display: flex; flex-direction: column; gap: 0.45rem;">
+            <button class="btn btn-secondary btn-sm" id="drawer-btn-settings" style="width: 100%; justify-content: flex-start; gap: 0.5rem;">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+              </svg>
+              <span>Platform Settings &amp; Thresholds</span>
+            </button>
+            <button class="btn btn-secondary btn-sm" id="drawer-btn-users" style="width: 100%; justify-content: flex-start; gap: 0.5rem;">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+              </svg>
+              <span>User Account Administration (ADMIN)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger btn-sm" id="btn-logout" style="width: 100%;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>End Session / Logout</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       TRANSACTION INVESTIGATION MODAL
+       =================================================================== -->
+  <div class="modal-backdrop" id="tx-detail-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <h3 class="modal-title">Payment Deep Investigation</h3>
+          <span class="badge" id="modal-tx-tier-badge">HIGH</span>
+        </div>
+        <button class="modal-close-btn" id="close-tx-modal-btn" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="tx-modal-content">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="btn-close-tx-modal">Close</button>
+        <button class="btn btn-danger btn-sm" id="btn-modal-block-tx">Block Entity</button>
+        <button class="btn btn-success btn-sm" id="btn-modal-approve-tx">Clear & Approve</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       INTERACTIVE PAYMENT SIMULATOR MODAL
+       =================================================================== -->
+  <div class="modal-backdrop" id="simulator-modal">
+    <div class="modal-card" style="max-width: 680px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent-purple)" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          <h3 class="modal-title">Interactive Payment Simulator</h3>
+        </div>
+        <button class="modal-close-btn" id="close-simulator-btn" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label class="form-label" style="margin-bottom: 0.5rem; display: block;">Select Attack / Behavioral Preset Scenario</label>
+          <div class="preset-scenarios-grid">
+            <div class="preset-card" data-preset="GROCERY_NORMAL">
+              <span class="preset-card-title" style="color: var(--status-low);">1. Legitimate Grocery</span>
+              <span class="preset-card-desc">₹450 • Known device • Regular daytime merchant purchase</span>
+            </div>
+            <div class="preset-card" data-preset="AFFLUENT_HIGH_VALUE">
+              <span class="preset-card-title" style="color: var(--accent-cyan);">2. High-Value Authorized</span>
+              <span class="preset-card-desc">₹18,500 • Consistent high spender • Trusted device</span>
+            </div>
+            <div class="preset-card" data-preset="VELOCITY_BURST">
+              <span class="preset-card-title" style="color: var(--status-high);">3. Rapid Velocity Burst</span>
+              <span class="preset-card-desc">₹9,800 • 6 txs in 2 mins • Collect request to unverified VPA</span>
+            </div>
+            <div class="preset-card" data-preset="SIM_SWAP_DRAIN">
+              <span class="preset-card-title" style="color: var(--status-critical);">4. SIM-Swap Drain Surge</span>
+              <span class="preset-card-desc">₹85,000 • New device IMEI • Night-time window • Mule target</span>
+            </div>
+            <div class="preset-card" data-preset="COLLECT_PHISHING" style="grid-column: span 2;">
+              <span class="preset-card-title" style="color: var(--status-critical);">5. Collect Request Phishing</span>
+              <span class="preset-card-desc">₹49,999 • Reverse authorization collect flow • Unknown recipient handle</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+          <h4 style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.85rem;">Or Customize Transaction Parameters:</h4>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+            <div class="form-group">
+              <label class="form-label">Sender UPI VPA</label>
+              <input type="text" class="form-input mono" id="sim-sender-upi" value="arjun.sharma@okaxis">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Receiver UPI VPA</label>
+              <input type="text" class="form-input mono" id="sim-receiver-upi" value="merchant.electronics@icici">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Amount (₹)</label>
+              <input type="number" class="form-input mono" id="sim-amount" value="3400.00">
+            </div>
+            <div class="form-group">
+              <label class="form-label">UPI Channel</label>
+              <select class="form-select" id="sim-channel">
+                <option value="UPI_APP">UPI_APP (Standard P2M)</option>
+                <option value="COLLECT_REQUEST">COLLECT_REQUEST (Collect Flow)</option>
+                <option value="INTENT_FLOW">INTENT_FLOW (In-App Gateway)</option>
+                <option value="QR_STATIC">QR_STATIC (Merchant QR)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Device Identifier</label>
+              <input type="text" class="form-input mono" id="sim-device" value="DEV-SAMSUNG-S23">
+            </div>
+            <div class="form-group">
+              <label class="form-label">City Location</label>
+              <input type="text" class="form-input" id="sim-city" value="Bengaluru">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="close-sim-footer-btn">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="btn-fire-simulation">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          <span>Evaluate & Inject Live</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       ALERT DETAIL DRAWER (Slide-Over Panel)
+       =================================================================== -->
+  <div class="drawer-backdrop" id="alert-drawer-backdrop">
+    <div class="drawer-slideover" style="max-width: 620px; width: 100%;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <h3 class="modal-title" id="drawer-alert-id">ALT-20261031-000000</h3>
+          <span class="badge" id="drawer-alert-severity-badge">HIGH</span>
+          <span class="badge" id="drawer-alert-status-badge">PENDING</span>
+        </div>
+        <button class="modal-close-btn" id="close-alert-drawer-btn" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        
+        <!-- Payment Metadata Overview -->
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <label class="form-label" style="margin: 0;">Payment Context</label>
+            <button class="btn btn-secondary btn-xs" id="btn-drawer-inspect-tx" style="padding: 0.15rem 0.5rem; font-size: 0.7rem;">
+              Full Transaction Details ↗
+            </button>
+          </div>
+          <div class="alert-drawer-meta-grid">
+            <div class="alert-drawer-meta-item">
+              <span class="alert-drawer-meta-label">Transaction ID</span>
+              <span class="alert-drawer-meta-value" id="drawer-alert-tx-id">TXN-0000</span>
+            </div>
+            <div class="alert-drawer-meta-item">
+              <span class="alert-drawer-meta-label">Amount</span>
+              <span class="alert-drawer-meta-value" id="drawer-alert-amount" style="color: var(--primary-purple); font-weight: 700;">₹0.00</span>
+            </div>
+            <div class="alert-drawer-meta-item">
+              <span class="alert-drawer-meta-label">Sender UPI</span>
+              <span class="alert-drawer-meta-value" id="drawer-alert-sender">-</span>
+            </div>
+            <div class="alert-drawer-meta-item">
+              <span class="alert-drawer-meta-label">Receiver UPI</span>
+              <span class="alert-drawer-meta-value" id="drawer-alert-receiver">-</span>
+            </div>
+            <div class="alert-drawer-meta-item">
+              <span class="alert-drawer-meta-label">Channel & Device</span>
+              <span class="alert-drawer-meta-value" id="drawer-alert-channel-dev">UPI_APP</span>
+            </div>
+            <div class="alert-drawer-meta-item">
+              <span class="alert-drawer-meta-label">Location & Time</span>
+              <span class="alert-drawer-meta-value" id="drawer-alert-time">-</span>
+            </div>
+            <div class="alert-drawer-meta-item">
+              <span class="alert-drawer-meta-label">Transaction Status</span>
+              <span class="alert-drawer-meta-value" id="drawer-alert-tx-status">PENDING</span>
+            </div>
+            <div class="alert-drawer-meta-item">
+              <span class="alert-drawer-meta-label">Device Identifier</span>
+              <span class="alert-drawer-meta-value" id="drawer-alert-device-ip">DEV-UNKNOWN</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ML Anomaly Evaluation & Risk Calibration -->
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 1rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.2rem;">
+                <span style="font-size: 0.68rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Isolation Forest Engine</span>
+                <span class="badge" id="drawer-alert-anomaly-badge" style="background: rgba(217, 79, 92, 0.12); color: #d94f5c; font-size: 0.65rem; padding: 0.1rem 0.4rem;">STATISTICAL ANOMALY</span>
+              </div>
+              <div style="font-size: 1rem; font-weight: 700; color: var(--text-primary);" id="drawer-alert-category">High Risk Anomaly</div>
+            </div>
+            <div style="text-align: right;">
+              <span style="font-size: 0.68rem; color: var(--text-muted); font-weight: 600;">Calibrated Risk Score</span>
+              <div style="font-size: 1.6rem; font-weight: 700; font-family: var(--font-mono); color: var(--status-critical);" id="drawer-alert-risk-score">88.5</div>
+            </div>
+          </div>
+
+          <!-- Risk Score Bar -->
+          <div style="background: #eef0f6; height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 0.75rem;">
+            <div id="drawer-alert-risk-bar" style="height: 100%; width: 88%; background: linear-gradient(90deg, #16a36a, #d99324, #d94f5c); transition: width 0.3s ease;"></div>
+          </div>
+
+          <div style="font-size: 0.78rem; color: var(--text-secondary); line-height: 1.45;" id="drawer-alert-primary-reason">
+            Evaluating transaction parameters...
+          </div>
+        </div>
+
+        <!-- Forensic Distinction Notice -->
+        <div style="background: #e8f0ff; border: 1px solid rgba(76, 131, 217, 0.25); border-radius: var(--radius-sm); padding: 0.75rem 0.9rem; font-size: 0.74rem; color: var(--navy-primary, #25324b); line-height: 1.45;">
+          <div style="display: flex; align-items: center; gap: 0.4rem; font-weight: 600; color: #3b6fc2; margin-bottom: 0.25rem;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>Forensic Distinction Notice</span>
+          </div>
+          <span><strong>Statistical Anomaly vs Confirmed Fraud:</strong> Unsupervised Isolation Forest outlier flags indicate statistical divergence from the customer's calibrated baseline. An unsupervised statistical anomaly does not constitute confirmed fraud without human review. Please verify with the account holder before executing permanent punitive blocks.</span>
+        </div>
+
+        <!-- Contributing Factors & Transparent XAI Breakdown -->
+        <div>
+          <label class="form-label">Transparent Feature Explanations (Contributing Signals)</label>
+          <div id="drawer-factors-container">
+            <!-- Dynamic factor cards -->
+          </div>
+        </div>
+
+        <!-- SOC Review & Triage Actions -->
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+          <label class="form-label">Analyst Investigation Notes</label>
+          <textarea class="form-input" id="drawer-analyst-notes" rows="2" placeholder="Record reason for clearing, verification steps, or fraud block justification..."></textarea>
+          
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; align-items: center;">
+            <button class="btn btn-secondary btn-sm" id="btn-drawer-mark-reviewed" style="border-color: var(--primary-purple); color: var(--primary-purple); display: inline-flex; align-items: center; gap: 0.35rem;">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              Mark as Under Review
+            </button>
+            <button class="btn btn-success btn-sm" id="btn-drawer-approve" style="display: inline-flex; align-items: center; gap: 0.35rem;">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Approve Transaction
+            </button>
+            <button class="btn btn-danger btn-sm" id="btn-drawer-block" style="display: inline-flex; align-items: center; gap: 0.35rem;">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+              Block Account / Payment
+            </button>
+            <button class="btn btn-warning btn-sm" id="btn-drawer-dismiss" style="background: #fff2d9; color: #d99324; border-color: rgba(217, 147, 36, 0.3); display: inline-flex; align-items: center; gap: 0.35rem;">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              Dismiss Alert
+            </button>
+            <button class="btn btn-secondary btn-sm" id="btn-drawer-close" style="margin-left: auto;">
+              Close
+            </button>
+          </div>
+        </div>
+
+        <!-- Audit Trail -->
+        <div style="font-size: 0.72rem; color: var(--text-muted); background: var(--bg-surface); padding: 0.65rem 0.85rem; border-radius: var(--radius-xs); border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 0.2rem;">
+          <div><strong>Reviewed By:</strong> <span id="drawer-reviewed-by">None (Pending Triage)</span></div>
+          <div><strong>Last Updated:</strong> <span id="drawer-updated-at">-</span></div>
+          <div><strong>Alert Created:</strong> <span id="drawer-created-at">-</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       SETTINGS MODAL (LIGHT THEME)
+       =================================================================== -->
+  <div class="modal-backdrop" id="settings-modal">
+    <div class="modal-card" style="max-width: 580px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--primary-purple)" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <h3 class="modal-title">System & Security Settings</h3>
+        </div>
+        <button class="modal-close-btn" id="close-settings-modal-btn" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <div>
+          <h4 style="font-size: 0.85rem; color: var(--text-primary); margin-bottom: 0.5rem; font-weight: 600;">Alert Risk Thresholds</h4>
+          <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Transactions exceeding these calibrated risk scores trigger triage alerts in the SOC queue.</p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label" style="color: var(--status-warning);">Medium Threshold</label>
+              <input type="number" class="form-input mono" id="cfg-threshold-medium" value="40" min="10" max="60">
+            </div>
+            <div class="form-group">
+              <label class="form-label" style="color: var(--status-danger);">High Threshold</label>
+              <input type="number" class="form-input mono" id="cfg-threshold-high" value="70" min="50" max="85">
+            </div>
+            <div class="form-group">
+              <label class="form-label" style="color: var(--primary-purple);">Critical Threshold</label>
+              <input type="number" class="form-input mono" id="cfg-threshold-critical" value="90" min="80" max="99">
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+          <h4 style="font-size: 0.85rem; color: var(--text-primary); margin-bottom: 0.5rem; font-weight: 600;">Engine & Streaming Parameters</h4>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Isolation Contamination</label>
+              <input type="text" class="form-input mono" id="cfg-contamination" value="0.03" readonly title="Configured in Isolation Forest model artifacts">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Telemetry Polling Rate</label>
+              <select class="form-select" id="cfg-polling-rate">
+                <option value="3000">3 seconds</option>
+                <option value="5000" selected>5 seconds (Default)</option>
+                <option value="10000">10 seconds</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <h4 style="font-size: 0.85rem; color: var(--text-primary); font-weight: 600;">Interface Theme</h4>
+            <span class="badge badge-success" id="theme-status-badge">Light Theme Active (Default)</span>
+          </div>
+          <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.75rem;" id="theme-desc-text">
+            Clean off-white background with soft lavender and purple accents (Default)
+          </p>
+          <div class="theme-toggle-cluster" style="display: flex; gap: 0.65rem;">
+            <button type="button" class="theme-select-card active" id="btn-theme-light" data-theme-val="light" style="flex: 1; display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: var(--radius-sm); border: 2px solid var(--primary-purple); background: var(--bg-card); cursor: pointer; text-align: left; transition: var(--transition-fast);">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--soft-lavender); display: flex; align-items: center; justify-content: center; color: var(--primary-purple); flex-shrink: 0;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/>
+                  <line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/>
+                  <line x1="21" y1="12" x2="23" y2="12"/>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.82rem; color: var(--text-primary);">Light Mode</div>
+                <div style="font-size: 0.7rem; color: var(--text-secondary);">Default Fintech UI</div>
+              </div>
+            </button>
+            <button type="button" class="theme-select-card" id="btn-theme-dark" data-theme-val="dark" style="flex: 1; display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); background: var(--bg-surface); cursor: pointer; text-align: left; transition: var(--transition-fast);">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--bg-card-hover); display: flex; align-items: center; justify-content: center; color: var(--text-secondary); flex-shrink: 0;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.82rem; color: var(--text-primary);">Dark SOC Mode</div>
+                <div style="font-size: 0.7rem; color: var(--text-secondary);">Cybersecurity Midnight</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="close-settings-modal-footer-btn">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="btn-save-settings">Save Configuration</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       FLOATING TOAST CONTAINER & LIVE ALERT DISPATCH
+       =================================================================== -->
+  <div class="fraudshield-toast-container" id="fraudshield-toast-container"></div>
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Application Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/simulator.js"></script>
+  <script src="js/dashboard.js"></script>
+  <!-- Create User Modal -->
+  <div class="modal-backdrop" id="modal-create-user">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Security Operations User</h3>
+        <button class="modal-close-btn" id="close-create-user-modal-btn" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-create-user" style="display: flex; flex-direction: column; gap: 0.85rem;">
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-input" id="cu-username" required placeholder="e.g. analyst_rahul" minlength="3">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input" id="cu-fullname" required placeholder="e.g. Rahul Verma">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" id="cu-email" required placeholder="e.g. rahul@fraudshield.ai">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Temporary Password</label>
+            <input type="password" class="form-input" id="cu-password" required placeholder="Min 8 characters" minlength="8">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Security Role Assignment</label>
+            <select class="form-select" id="cu-role" required>
+              <option value="ANALYST" selected>ANALYST (Triage & Case Review)</option>
+              <option value="ADMIN">ADMIN (Full Permissions & RBAC)</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="btn-cancel-create-user">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="btn-submit-create-user">Create User Account</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
